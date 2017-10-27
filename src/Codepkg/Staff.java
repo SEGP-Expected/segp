@@ -1,3 +1,5 @@
+package Codepkg;
+
 public class Staff {
 
     private String staffId;
