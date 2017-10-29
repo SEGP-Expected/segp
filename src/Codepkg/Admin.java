@@ -15,43 +15,33 @@ public class Admin {
 
        Admin admin = new Admin();
        ui = new UserInterface();
-       admin.showGroups();
-//        String query = "SELECT * FROM groups";
-//        ResultSet rs = st.executeQuery(query);
-//        rs.next();
-//        String named = rs.getString("id");
-//        System.out.println(named);
-//        st.close();
-//        con.close();
-               
+       ui.updateGroups();
+//       admin.showGroups();               
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ui.setVisible(true);
             }
         });
     }
-    
-    public void showGroups() throws Exception{
-        ResultSet rs = db.showCreatedGroups();
-        DefaultTableModel model;
-        model = (DefaultTableModel) ui.jGroups.getModel();
-        
-//        while(rs.next()) {
-//            System.out.println(rs.getString("name"));
+//    
+//    public void showGroups() throws Exception{
+//        ResultSet rs = db.showCreatedGroups(ui.selectedGroup);
+//        DefaultTableModel model;
+//        model = (DefaultTableModel) ui.jGroups.getModel();
+//        
+//        while (model.getRowCount() > 0) {
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                model.removeRow(i);
+//            }
 //        }
-       
-        for (int i = 0; rs.next(); i++) {
-            model.addRow(new Object[]{rs.getString("name")});
-        }
-
-//        while(rs.next()){
-          //  model.addRow(new Object[]{"dddd"});
-
-//       }
-
-        db.st.close();
-        db.con.close();
-    }
+//        
+//        for (int i = 0; rs.next(); i++) {
+//            model.addRow(new Object[]{rs.getString("name")});
+//        }
+//
+//        db.st.close();
+//        db.con.close();
+//    }
     public void createGroup() {
       
     }

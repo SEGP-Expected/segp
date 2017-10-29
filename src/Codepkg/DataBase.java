@@ -45,11 +45,11 @@ public class DataBase {
         }
         
         st = con.createStatement();
-        
     }
     
-    public ResultSet showCreatedGroups() throws SQLException {
-        String query = "SELECT name FROM groups";
+    public ResultSet showCreatedGroups(int year) throws SQLException {
+        String query = "SELECT name FROM groups where year='"+year+"'";
+        System.out.println(query);
         ResultSet rs = st.executeQuery(query);
         return rs;
     }
