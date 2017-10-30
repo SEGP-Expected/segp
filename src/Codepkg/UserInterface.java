@@ -208,6 +208,12 @@ public class UserInterface extends javax.swing.JFrame {
                 "UoB", "Name", "Year", "Status"
             }
         ));
+        jTableStudents.setToolTipText("(+) Click to add in new group");
+        jTableStudents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableStudentsMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableStudents);
 
         jTabStudentAndTeacher.addTab("Students", jScrollPane3);
@@ -220,6 +226,11 @@ public class UserInterface extends javax.swing.JFrame {
                 "ID", "Name", "Status"
             }
         ));
+        jTableTeachers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTeachersMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jTableTeachers);
 
         jTabStudentAndTeacher.addTab(" Teachers", jScrollPane4);
@@ -397,11 +408,6 @@ public class UserInterface extends javax.swing.JFrame {
         });
 
         jButton8.setText("Cancel");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
 
         jTextArea1.setBackground(new java.awt.Color(240, 240, 240));
         jTextArea1.setColumns(20);
@@ -1020,9 +1026,11 @@ public class UserInterface extends javax.swing.JFrame {
 //            Admin admin = new Admin();
 //            admin.showGroups();
             updateGroups();
-            updateStudents();
+            updateGroupedStudents();
+            updateUnGroupedStudents();
             updateTeacher();
-            
+            updateUnGroupedTeacher();
+
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1035,12 +1043,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jbAddTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddTeacherActionPerformed
         // TODO add your handling code here:
-          jTabbedPane2.setSelectedIndex(2);
+        jTabbedPane2.setSelectedIndex(2);
     }//GEN-LAST:event_jbAddTeacherActionPerformed
 
     private void jbAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddStudentActionPerformed
         // TODO add your handling code here:
-          jTabbedPane2.setSelectedIndex(3);
+        jTabbedPane2.setSelectedIndex(3);
     }//GEN-LAST:event_jbAddStudentActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -1108,134 +1116,252 @@ public class UserInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jGroupsMouseClicked
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-        jTabbedPane2.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton8ActionPerformed
-    
-    public void updateGroupDetails()throws Exception{
+    private void jTableStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStudentsMouseClicked
+        try {
+            // TODO add your handling code here:
+            addNewGroup();
+
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTableStudentsMouseClicked
+
+    private void jTableTeachersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTeachersMouseClicked
+        try {
+            // TODO add your handling code here:
+//        updateUnGroupedTeacher();
+        addTeacherinNewGroup();
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTableTeachersMouseClicked
+
+    public void updateGroupDetails() throws Exception {
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
-        
+
         DataBase db = new DataBase();
-        
+
         ResultSet rs = db.showTeacherDetail(groupName);
-        
+
         /////////////////////////////////////////////////////////////////////////
         rs.next();
         jTextField_teacherName.setText(rs.getString("name"));
         jTextField_teacherDepartment.setText(rs.getString("department"));
         jTextField_teacherID.setText(rs.getString("id"));
         /////////////////////////////////////////////////////////////////////////
-        
+
         rs = db.showStudentsDetail(groupName);
-           
+
         DefaultTableModel model;
         model = (DefaultTableModel) ui.jTableGroupDetails.getModel();
-        
-         while (model.getRowCount() > 0) {
+
+        while (model.getRowCount() > 0) {
             for (int i = 0; i < model.getRowCount(); i++) {
                 model.removeRow(i);
             }
         }
-        
+
         for (int i = 0; rs.next(); i++) {
-            model.addRow(new Object[]{rs.getString("id"),rs.getString("name"),rs.getInt("year")});
+            model.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getInt("year")});
         }
         db.st.close();
         db.con.close();
-        
-        
-        
+
     }
-    
+
     public void updateGroups() throws Exception {
         DataBase db = new DataBase();
         ResultSet rs = db.showCreatedGroups(ui.selectedGroup);
-        
+
         DefaultTableModel model;
         model = (DefaultTableModel) ui.jGroups.getModel();
-        
-         while (model.getRowCount() > 0) {
+
+        while (model.getRowCount() > 0) {
             for (int i = 0; i < model.getRowCount(); i++) {
                 model.removeRow(i);
             }
         }
-        
+
         for (int i = 0; rs.next(); i++) {
             model.addRow(new Object[]{rs.getString("name")});
         }
         db.st.close();
         db.con.close();
     }
-    
-    public void updateStudents() throws Exception{
+
+    public void updateGroupedStudents() throws Exception {
         DataBase db = new DataBase();
         ResultSet rs = db.showGroupedStudents(ui.selectedGroup);
-        
-        
-        DefaultTableModel model,model2;
-        
+
+        DefaultTableModel model, model2;
+
         model = (DefaultTableModel) ui.jTableStudents.getModel();
 
-        
         while (model.getRowCount() > 0) {
             for (int i = 0; i < model.getRowCount(); i++) {
                 model.removeRow(i);
             }
         }
-        
+
         for (int i = 0; rs.next(); i++) {
-            model.addRow(new Object[]{rs.getInt("id"),rs.getString("name"),rs.getInt("year"),rs.getString("ismember")});
+            model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), rs.getInt("year"), rs.getString("ismember")});
         }
         db.st.close();
         db.con.close();
-        
-        db = new DataBase();
-        ResultSet rs2 = db.showUnGroupedStudents(ui.selectedGroup);
 
-        for (int i = 0; rs2.next(); i++) {
-            model.addRow(new Object[]{rs.getInt("id"),rs.getString("name"),rs.getInt("year"),"Unallocated"});
+//        DataBase db2 = new DataBase();
+//        ResultSet rs2 = db.showUnGroupedStudents(ui.selectedGroup);
+//
+//        for (int i = 0; rs2.next(); i++) {
+//            model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), rs.getInt("year"), "Unallocated"});
+//        }
+//
+//        db.st.close();
+//        db.con.close();
+    }
+
+    public void updateUnGroupedStudents() throws Exception {
+        DataBase db = new DataBase();
+        ResultSet rs = db.showUnGroupedStudents(ui.selectedGroup);
+
+        DefaultTableModel model, model2;
+
+        model = (DefaultTableModel) ui.jTableStudents.getModel();
+
+//        while (model.getRowCount() > 0) {
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                model.removeRow(i);
+//            }
+//        }
+        for (int i = 0; rs.next(); i++) {
+            model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), rs.getInt("year"), "Unallocated"});
+        }
+        db.st.close();
+        db.con.close();
+    }
+
+    public void updateTeacher() throws Exception {
+        DataBase db = new DataBase();
+        ResultSet rs = db.showGroupedTeacher(ui.selectedGroup);
+
+        DefaultTableModel model, model2;
+
+        model = (DefaultTableModel) ui.jTableTeachers.getModel();
+
+        while (model.getRowCount() > 0) {
+            for (int i = 0; i < model.getRowCount(); i++) {
+                model.removeRow(i);
+            }
+        }
+
+        for (int i = 0; rs.next(); i++) {
+            model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), rs.getString("isteaching")});
+        }
+        db.st.close();
+        db.con.close();
+
+//        db = new DataBase();
+//        ResultSet rs2 = db.showUnGroupedTeacher(ui.selectedGroup);
+//
+//        for (int i = 0; rs2.next(); i++) {
+//            model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), "Unallocated"});
+//        }
+//
+//        db.st.close();
+//
+//        db.con.close();
+    }
+    public void updateUnGroupedTeacher() throws Exception {
+        DataBase db = new DataBase();
+        ResultSet rs = db.showUnGroupedTeacher(ui.selectedGroup);
+
+        DefaultTableModel model;
+
+        model = (DefaultTableModel) ui.jTableTeachers.getModel();
+
+//        while (model.getRowCount() > 0) {
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                model.removeRow(i);
+//            }
+//        }
+
+        for (int i = 0; rs.next(); i++) {
+            model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), "UnAllocated"});
         }
         
         
         db.st.close();
-        
+
         db.con.close();
     }
     
-    public void updateTeacher() throws Exception{
+    
+
+    public void addNewGroup() throws Exception {
+
+        String UoB = jTableStudents.getValueAt(jTableStudents.getSelectedRow(), 0).toString();
+
         DataBase db = new DataBase();
-        ResultSet rs = db.showGroupedTeacher(ui.selectedGroup);
-        
-        
-        DefaultTableModel model,model2;
-        
-        model = (DefaultTableModel) ui.jTableTeachers.getModel();
 
-        
-        while (model.getRowCount() > 0) {
-            for (int i = 0; i < model.getRowCount(); i++) {
-                model.removeRow(i);
+        ResultSet rs = db.getSelectedStudent(UoB);
+
+        /////////////////////////////////////////////////////////////////////////
+        rs.next();
+        /////////////////////////////////////////////////////////////////////////
+        if (rs.getString("ismember") == null) {
+
+            if (jTextField1.getText().isEmpty()) {
+                jTextField1.setText(rs.getString("name"));
+            } else if (jTextField2.getText().isEmpty()) {
+                jTextField2.setText(rs.getString("name"));
+            } else if (jTextField3.getText().isEmpty()) {
+                jTextField3.setText(rs.getString("name"));
+            } else if (jTextField4.getText().isEmpty()) {
+                jTextField4.setText(rs.getString("name"));
+            } else if (jTextField5.getText().isEmpty()) {
+                jTextField5.setText(rs.getString("name"));
+            } else if (jTextField6.getText().isEmpty()) {
+                jTextField6.setText(rs.getString("name"));
+            } else if (jTextField7.getText().isEmpty()) {
+                jTextField7.setText(rs.getString("name"));
+            } else if (jTextField8.getText().isEmpty()) {
+                jTextField8.setText(rs.getString("name"));
             }
-        }
-        
-        for (int i = 0; rs.next(); i++) {
-            model.addRow(new Object[]{rs.getInt("id"),rs.getString("name"),rs.getString("isteaching")});
-        }
-        db.st.close();
-        db.con.close();
-        
-        db = new DataBase();
-        ResultSet rs2 = db.showUnGroupedTeacher(ui.selectedGroup);
 
-        for (int i = 0; rs2.next(); i++) {
-            model.addRow(new Object[]{rs.getInt("id"),rs.getString("name"),"Unallocated"});
         }
-        
-        
+
+        System.out.println("Can not create group");
+        //update his status from database
+
+        /////////////////////////////////////////////////////////////////////////
         db.st.close();
-        
         db.con.close();
+
+    }
+
+    public void addTeacherinNewGroup() throws Exception {
+
+        String id = jTableTeachers.getValueAt(jTableStudents.getSelectedRow(), 0).toString();
+
+        DataBase db = new DataBase();
+
+        ResultSet rs = db.getSelectedTeacher(id);
+
+        /////////////////////////////////////////////////////////////////////////
+        rs.next();
+        /////////////////////////////////////////////////////////////////////////
+        if (rs.getString("isteaching") == null) {
+
+            jTextFieldTeacherName.setText(rs.getString("name"));
+
+        }
+        System.out.println("Can not create group");
+        //update his status from database
+
+        /////////////////////////////////////////////////////////////////////////
+        db.st.close();
+        db.con.close();
+
     }
 
     /**

@@ -277,6 +277,7 @@
                         <Column editable="true" title="Status" type="java.lang.Object"/>
                       </Table>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="(+) Click to add in new group"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -305,6 +306,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableStudentsMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -354,6 +358,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableTeachersMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -706,9 +713,6 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancel"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
-                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                   <AuxValues>
