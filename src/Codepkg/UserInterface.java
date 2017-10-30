@@ -1357,6 +1357,8 @@ public class UserInterface extends javax.swing.JFrame {
         }
         System.out.println("Can not create group");
         //update his status from database
+        //update his status from database
+        
 
         /////////////////////////////////////////////////////////////////////////
         db.st.close();
