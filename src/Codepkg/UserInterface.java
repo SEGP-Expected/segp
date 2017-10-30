@@ -1341,7 +1341,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     public void addTeacherinNewGroup() throws Exception {
 
-        String id = jTableTeachers.getValueAt(jTableStudents.getSelectedRow(), 0).toString();
+        String id = jTableTeachers.getValueAt(jTableTeachers.getSelectedRow(), 0).toString();
 
         DataBase db = new DataBase();
 
