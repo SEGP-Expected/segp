@@ -1,0 +1,232 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.5
+-- Dumped by pg_dump version 9.6.5
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE groups (
+    name character(30) NOT NULL,
+    members integer,
+    istaughtby integer NOT NULL,
+    year integer
+);
+
+
+ALTER TABLE groups OWNER TO postgres;
+
+--
+-- Name: id_a_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE id_a_seq
+    START WITH 12345
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE id_a_seq OWNER TO postgres;
+
+--
+-- Name: staff; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE staff (
+    id integer DEFAULT nextval('id_a_seq'::regclass) NOT NULL,
+    name character(30) NOT NULL,
+    department character(10) NOT NULL,
+    isteaching character(30)
+);
+
+
+ALTER TABLE staff OWNER TO postgres;
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE staff_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE staff_id_seq OWNER TO postgres;
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE staff_id_seq OWNED BY staff.id;
+
+
+--
+-- Name: students; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE students (
+    id integer NOT NULL,
+    name character(30) NOT NULL,
+    year integer NOT NULL,
+    ismember character(30)
+);
+
+
+ALTER TABLE students OWNER TO postgres;
+
+--
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY groups (name, members, istaughtby, year) FROM stdin;
+doodles                       	5	1	1
+lionkings                     	5	2	1
+coders                        	5	3	2
+\.
+
+
+--
+-- Name: id_a_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('id_a_seq', 12345, true);
+
+
+--
+-- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY staff (id, name, department, isteaching) FROM stdin;
+1	junidada                      	cs        	doodles                       
+2	sarfarz                       	cs        	lionkings                     
+3	usman                         	es        	coders                        
+1919	Sarfaraz Raza                 	CS        	\N
+2020	Junaid Akhtar                 	CS        	\N
+2121	Ateeq Shaheen                 	CS        	\N
+2222	Gull Aftaab                   	CS        	\N
+2323	Ambareen Hanif                	CS        	\N
+2424	Sarmad sahab                  	CS        	\N
+2525	Noman Javaid                  	CS        	\N
+2626	Adnan Jani                    	CS        	\N
+2727	Hanif Chohan                  	CS        	\N
+12345	Ameer khurram                 	CS        	\N
+\.
+
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('staff_id_seq', 1, false);
+
+
+--
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY students (id, name, year, ismember) FROM stdin;
+1	waleed                        	1	lionkings                     
+3	usman                         	1	doodles                       
+2	faiz                          	2	doodles                       
+15026424	Faizan Ullah                  	1	\N
+15026425	Faizan Shahid                 	1	\N
+15026455	Faizan Shahid                 	1	\N
+15026457	Shahid Ullah                  	1	\N
+15026458	Imran Khan                    	1	\N
+15026459	Sajjad shah                   	1	\N
+15026499	Usman farooq                  	1	\N
+15026489	Haider kaamchoor              	1	\N
+15026479	Matto Nizamani                	1	\N
+15026410	Alfalah bhai                  	1	\N
+\.
+
+
+--
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: staff staff_isteaching_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff
+    ADD CONSTRAINT staff_isteaching_key UNIQUE (isteaching);
+
+
+--
+-- Name: staff staff_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff
+    ADD CONSTRAINT staff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students
+    ADD CONSTRAINT students_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: staff staff_isteaching_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff
+    ADD CONSTRAINT staff_isteaching_fkey FOREIGN KEY (isteaching) REFERENCES groups(name);
+
+
+--
+-- Name: students students_ismember_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students
+    ADD CONSTRAINT students_ismember_fkey FOREIGN KEY (ismember) REFERENCES groups(name);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
