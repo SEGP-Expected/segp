@@ -55,7 +55,7 @@ public class UserInterface extends javax.swing.JFrame {
         jTableTeachers = new javax.swing.JTable();
         jbAddStudent = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jTabHome = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -72,7 +72,7 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jPanelAddGroup = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jbSaveGroup = new javax.swing.JButton();
         jTextFieldTeacherName = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -80,7 +80,6 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        jButton16 = new javax.swing.JButton();
         jScrollPane11 = new javax.swing.JScrollPane();
         jTextArea7 = new javax.swing.JTextArea();
         jPanel11 = new javax.swing.JPanel();
@@ -104,12 +103,14 @@ public class UserInterface extends javax.swing.JFrame {
         jTextFieldGroupName = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBoxDepartment = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         jTextFieldNewTeacherName = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jTextFieldNewTeacherID = new javax.swing.JTextField();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -123,7 +124,6 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jTextFieldStuUoB = new javax.swing.JTextField();
-        jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
@@ -200,6 +200,7 @@ public class UserInterface extends javax.swing.JFrame {
         jTabStudentAndTeacher.setToolTipText("");
         jTabStudentAndTeacher.setAutoscrolls(true);
 
+        jTableStudents.setAutoCreateRowSorter(true);
         jTableStudents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -218,6 +219,7 @@ public class UserInterface extends javax.swing.JFrame {
 
         jTabStudentAndTeacher.addTab("Students", jScrollPane3);
 
+        jTableTeachers.setAutoCreateRowSorter(true);
         jTableTeachers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -226,6 +228,7 @@ public class UserInterface extends javax.swing.JFrame {
                 "ID", "Name", "Status"
             }
         ));
+        jTableTeachers.setToolTipText("(+) Click to add");
         jTableTeachers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableTeachersMouseClicked(evt);
@@ -324,6 +327,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jTableGroupDetails.setAutoCreateRowSorter(true);
         jTableGroupDetails.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jTableGroupDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -392,22 +396,28 @@ public class UserInterface extends javax.swing.JFrame {
                     .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jTabbedPane2.addTab("Group Details", jPanel4);
+        jTabHome.addTab("Group Details", jPanel4);
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbSaveGroup.setText("Save");
+        jbSaveGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbSaveGroupActionPerformed(evt);
             }
         });
 
+        jTextFieldTeacherName.setEditable(false);
         jTextFieldTeacherName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldTeacherNameActionPerformed(evt);
             }
         });
 
-        jButton8.setText("Cancel");
+        jButton8.setText("Clear Fields");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setBackground(new java.awt.Color(240, 240, 240));
         jTextArea1.setColumns(20);
@@ -421,11 +431,9 @@ public class UserInterface extends javax.swing.JFrame {
         jTextArea2.setBackground(new java.awt.Color(240, 240, 240));
         jTextArea2.setColumns(20);
         jTextArea2.setRows(1);
-        jTextArea2.setText("Add Teacer ID to add teacher");
+        jTextArea2.setText("Click on teacher from teacher column");
         jTextArea2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane6.setViewportView(jTextArea2);
-
-        jButton16.setText("Update");
 
         jTextArea7.setBackground(new java.awt.Color(240, 240, 240));
         jTextArea7.setColumns(20);
@@ -434,14 +442,48 @@ public class UserInterface extends javax.swing.JFrame {
         jTextArea7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane11.setViewportView(jTextArea7);
 
+        jTextField7.setEditable(false);
+        jTextField7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField7MouseClicked(evt);
+            }
+        });
+
         jLabel7.setText("Student 3");
 
         jLabel8.setText("Student 4");
 
         jLabel11.setText("Student 7");
 
+        jTextField5.setEditable(false);
+        jTextField5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField5MouseClicked(evt);
+            }
+        });
+
         jLabel10.setText("Student 6");
 
+        jTextField4.setEditable(false);
+        jTextField4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField4MouseClicked(evt);
+            }
+        });
+
+        jTextField3.setEditable(false);
+        jTextField3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField3MouseClicked(evt);
+            }
+        });
+
+        jTextField1.setEditable(false);
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
+            }
+        });
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -452,10 +494,30 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel9.setText("Student 5");
 
+        jTextField8.setEditable(false);
+        jTextField8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField8MouseClicked(evt);
+            }
+        });
+
+        jTextField2.setEditable(false);
+        jTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField2MouseClicked(evt);
+            }
+        });
+
         jLabel6.setText("Student 2");
 
         jLabel5.setText("Student 1");
 
+        jTextField6.setEditable(false);
+        jTextField6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField6MouseClicked(evt);
+            }
+        });
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -544,23 +606,22 @@ public class UserInterface extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton8)
-                        .addGap(232, 232, 232)
-                        .addComponent(jButton16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
                     .addComponent(jScrollPane1)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jButton8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbSaveGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextFieldTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(186, 186, 186)
@@ -590,9 +651,8 @@ public class UserInterface extends javax.swing.JFrame {
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton8)
-                    .addComponent(jButton16))
+                    .addComponent(jbSaveGroup)
+                    .addComponent(jButton8))
                 .addContainerGap())
         );
 
@@ -613,12 +673,12 @@ public class UserInterface extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Add Group", jPanelAddGroup);
+        jTabHome.addTab("Add/Edit Group", jPanelAddGroup);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Computer Science", "Electrical Engineering" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxDepartment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Computer Science", "Electrical Engineering", "Not Specified" }));
+        jComboBoxDepartment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                jComboBoxDepartmentActionPerformed(evt);
             }
         });
 
@@ -646,6 +706,15 @@ public class UserInterface extends javax.swing.JFrame {
             }
         });
 
+        jLabel20.setText("ID");
+
+        jTextFieldNewTeacherID.setEditable(false);
+        jTextFieldNewTeacherID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNewTeacherIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -653,32 +722,39 @@ public class UserInterface extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15))
-                        .addGap(59, 59, 59)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextFieldNewTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel20))
+                        .addGap(59, 59, 59)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldNewTeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jComboBoxDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldNewTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldNewTeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNewTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(53, 53, 53)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9)
                     .addComponent(jButton13))
@@ -704,13 +780,15 @@ public class UserInterface extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7)
-                    .addComponent(jScrollPane8))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
+                            .addComponent(jScrollPane8)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -720,12 +798,12 @@ public class UserInterface extends javax.swing.JFrame {
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(34, 34, 34)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Add/Edit Teacher", jPanel6);
+        jTabHome.addTab("Add/Edit Teacher", jPanel6);
 
         jLabel16.setText("Name");
 
@@ -736,13 +814,6 @@ public class UserInterface extends javax.swing.JFrame {
         jTextFieldStuUoB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldStuUoBActionPerformed(evt);
-            }
-        });
-
-        jButton14.setText("Update");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
             }
         });
 
@@ -759,11 +830,9 @@ public class UserInterface extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(144, 144, 144)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jButton14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                         .addComponent(jButton15))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -796,9 +865,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton14)
-                    .addComponent(jButton15))
+                .addComponent(jButton15)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -845,7 +912,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addContainerGap(139, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Add/Edit Student", jPanel7);
+        jTabHome.addTab("Add/Edit Student", jPanel7);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "All" }));
         jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -963,7 +1030,7 @@ public class UserInterface extends javax.swing.JFrame {
                                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTabbedPane2)
+                                    .addComponent(jTabHome)
                                     .addComponent(jSeparator1)
                                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -983,7 +1050,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTabbedPane2)
+                        .addComponent(jTabHome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1000,7 +1067,24 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jbAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddGroupActionPerformed
         // TODO add your handling code here:
-        jTabbedPane2.setSelectedIndex(1);
+        clearFields();
+
+        jTextFieldGroupName.setEditable(true);
+
+        int count = 0;
+        jTabHome.setSelectedIndex(1);
+        try {
+            DataBase db = new DataBase();
+            ResultSet rs = db.showCreatedGroups(ui.selectedGroup);
+            while (rs.next()) {
+                count++;
+            }
+            count++;
+            jTextFieldGroupName.setText("Group0" + count);
+
+        } catch (Exception ex) {
+
+        }
     }//GEN-LAST:event_jbAddGroupActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1043,12 +1127,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jbAddTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddTeacherActionPerformed
         // TODO add your handling code here:
-        jTabbedPane2.setSelectedIndex(2);
+        jTabHome.setSelectedIndex(2);
     }//GEN-LAST:event_jbAddTeacherActionPerformed
 
     private void jbAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddStudentActionPerformed
         // TODO add your handling code here:
-        jTabbedPane2.setSelectedIndex(3);
+        jTabHome.setSelectedIndex(3);
     }//GEN-LAST:event_jbAddStudentActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -1063,17 +1147,18 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldTeacherNameActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbSaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveGroupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_jbSaveGroupActionPerformed
 
     private void jTextFieldNewTeacherNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNewTeacherNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNewTeacherNameActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jComboBoxDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDepartmentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_jComboBoxDepartmentActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
@@ -1099,10 +1184,6 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton14ActionPerformed
-
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton15ActionPerformed
@@ -1110,7 +1191,11 @@ public class UserInterface extends javax.swing.JFrame {
     private void jGroupsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGroupsMouseClicked
         try {
             // TODO add your handling code here:
-            updateGroupDetails();
+            if (jTabHome.getSelectedIndex() == 0) {
+                updateGroupDetails();
+            } else if (jTabHome.getSelectedIndex() == 1) {
+                populateEditGroup();
+            }
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1119,22 +1204,108 @@ public class UserInterface extends javax.swing.JFrame {
     private void jTableStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStudentsMouseClicked
         try {
             // TODO add your handling code here:
-            addNewGroup();
-
+            if (jTabHome.getSelectedIndex() == 1) {
+                addNewGroup();
+            }
+            if (jTabHome.getSelectedIndex() == 3) {
+                AddUpdateStudent();
+            }
+            
+            
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        
+
     }//GEN-LAST:event_jTableStudentsMouseClicked
 
     private void jTableTeachersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTeachersMouseClicked
-        try {
-            // TODO add your handling code here:
+
+        if (jTabHome.getSelectedIndex() == 1) {
+            try {
+                // TODO add your handling code here:
 //        updateUnGroupedTeacher();
-        addTeacherinNewGroup();
-        } catch (Exception ex) {
-            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+                addTeacherinNewGroup();
+            } catch (Exception ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (jTabHome.getSelectedIndex() == 2) {
+            try {
+                editTeacher();
+            } catch (Exception ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
+
     }//GEN-LAST:event_jTableTeachersMouseClicked
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        clearFields();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    public void clearFields() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextFieldNewTeacherName.setText("");
+    }
+
+    public void clearGroupName() {
+        jTextFieldGroupName.setText("");
+    }
+
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        // TODO add your handling code here:
+        jTextField1.setText("");
+    }//GEN-LAST:event_jTextField1MouseClicked
+
+    private void jTextField2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseClicked
+        // TODO add your handling code here:
+        jTextField2.setText("");
+    }//GEN-LAST:event_jTextField2MouseClicked
+
+    private void jTextField3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField3MouseClicked
+        // TODO add your handling code here:
+        jTextField3.setText("");
+    }//GEN-LAST:event_jTextField3MouseClicked
+
+    private void jTextField4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField4MouseClicked
+        // TODO add your handling code here:
+        jTextField4.setText("");
+    }//GEN-LAST:event_jTextField4MouseClicked
+
+    private void jTextField5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseClicked
+        // TODO add your handling code here:
+        jTextField5.setText("");
+    }//GEN-LAST:event_jTextField5MouseClicked
+
+    private void jTextField6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField6MouseClicked
+        // TODO add your handling code here:
+        jTextField6.setText("");
+    }//GEN-LAST:event_jTextField6MouseClicked
+
+    private void jTextField7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField7MouseClicked
+        // TODO add your handling code here:
+        jTextField7.setText("");
+    }//GEN-LAST:event_jTextField7MouseClicked
+
+    private void jTextField8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField8MouseClicked
+        // TODO add your handling code here:
+        jTextField8.setText("");
+    }//GEN-LAST:event_jTextField8MouseClicked
+
+    private void jTextFieldNewTeacherIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNewTeacherIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNewTeacherIDActionPerformed
 
     public void updateGroupDetails() throws Exception {
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
@@ -1164,6 +1335,80 @@ public class UserInterface extends javax.swing.JFrame {
         for (int i = 0; rs.next(); i++) {
             model.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getInt("year")});
         }
+        db.st.close();
+        db.con.close();
+
+    }
+
+    public void populateEditGroup() throws Exception {
+        String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
+
+        DataBase db = new DataBase();
+
+        ResultSet rs = db.showTeacherDetail(groupName);
+
+        jTextFieldGroupName.setEditable(false);
+        jTextFieldGroupName.setText(groupName);
+
+        clearFields();
+
+        /////////////////////////////////////////////////////////////////////////
+        rs.next();
+
+        jTextFieldTeacherName.setText(rs.getString("name"));
+
+        /////////////////////////////////////////////////////////////////////////
+        rs = db.showStudentsDetail(groupName);
+
+        if (rs.next()) {
+//        jTextField1.enableInputMethods(true);
+            jTextField1.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField2.enableInputMethods(true);
+            jTextField2.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField3.enableInputMethods(true);
+            jTextField3.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField1.enableInputMethods(true);
+            jTextField4.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField1.enableInputMethods(true);
+            jTextField5.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField1.enableInputMethods(true);
+            jTextField6.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField1.enableInputMethods(true);
+            jTextField7.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+        if (rs.next()) {
+//        jTextField1.enableInputMethods(true);
+            jTextField8.setText(rs.getString("name"));
+        } else {
+            return;
+        }
+
         db.st.close();
         db.con.close();
 
@@ -1271,6 +1516,7 @@ public class UserInterface extends javax.swing.JFrame {
 //
 //        db.con.close();
     }
+
     public void updateUnGroupedTeacher() throws Exception {
         DataBase db = new DataBase();
         ResultSet rs = db.showUnGroupedTeacher(ui.selectedGroup);
@@ -1284,18 +1530,14 @@ public class UserInterface extends javax.swing.JFrame {
 //                model.removeRow(i);
 //            }
 //        }
-
         for (int i = 0; rs.next(); i++) {
             model.addRow(new Object[]{rs.getInt("id"), rs.getString("name"), "UnAllocated"});
         }
-        
-        
+
         db.st.close();
 
         db.con.close();
     }
-    
-    
 
     public void addNewGroup() throws Exception {
 
@@ -1308,29 +1550,48 @@ public class UserInterface extends javax.swing.JFrame {
         /////////////////////////////////////////////////////////////////////////
         rs.next();
         /////////////////////////////////////////////////////////////////////////
+
+        if (jTextField1.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField2.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField3.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField4.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField5.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField6.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField7.getText().equals(rs.getString("id"))) {
+            return;
+        } else if (jTextField8.getText().equals(rs.getString("id"))) {
+            return;
+        }
+
         if (rs.getString("ismember") == null) {
 
             if (jTextField1.getText().isEmpty()) {
-                jTextField1.setText(rs.getString("name"));
+                jTextField1.setText(rs.getString("id"));
             } else if (jTextField2.getText().isEmpty()) {
-                jTextField2.setText(rs.getString("name"));
+                jTextField2.setText(rs.getString("id"));
             } else if (jTextField3.getText().isEmpty()) {
-                jTextField3.setText(rs.getString("name"));
+                jTextField3.setText(rs.getString("id"));
             } else if (jTextField4.getText().isEmpty()) {
-                jTextField4.setText(rs.getString("name"));
+                jTextField4.setText(rs.getString("id"));
             } else if (jTextField5.getText().isEmpty()) {
-                jTextField5.setText(rs.getString("name"));
+                jTextField5.setText(rs.getString("id"));
             } else if (jTextField6.getText().isEmpty()) {
-                jTextField6.setText(rs.getString("name"));
+                jTextField6.setText(rs.getString("id"));
             } else if (jTextField7.getText().isEmpty()) {
-                jTextField7.setText(rs.getString("name"));
+                jTextField7.setText(rs.getString("id"));
             } else if (jTextField8.getText().isEmpty()) {
-                jTextField8.setText(rs.getString("name"));
+                jTextField8.setText(rs.getString("id"));
             }
 
+        } else {
+            System.out.println("Can not create group");
         }
-
-        System.out.println("Can not create group");
         //update his status from database
 
         /////////////////////////////////////////////////////////////////////////
@@ -1358,13 +1619,66 @@ public class UserInterface extends javax.swing.JFrame {
         System.out.println("Can not create group");
         //update his status from database
         //update his status from database
-        
 
         /////////////////////////////////////////////////////////////////////////
         db.st.close();
         db.con.close();
 
     }
+
+    private void editTeacher() throws Exception {
+        String id = jTableTeachers.getValueAt(jTableTeachers.getSelectedRow(), 0).toString();
+
+        DataBase db = new DataBase();
+
+        ResultSet rs = db.getSelectedTeacher(id);
+
+        /////////////////////////////////////////////////////////////////////////
+        rs.next();
+        /////////////////////////////////////////////////////////////////////////
+//      Integer.parseInt((String) jComboBox1.getSelectedItem());
+
+        jTextFieldNewTeacherName.setText(rs.getString("name"));
+        jTextFieldNewTeacherID.setText(rs.getString("id"));
+        String department = rs.getString("department");
+//        String name =((String) jComboBoxDepartment.getSelectedItem()); //what is happening here???
+
+        if (department.equals("CS") || department.equals("cs")) {
+            jComboBoxDepartment.setSelectedIndex(0);
+        } else if (department.equals("EE") || department.equals("ee")) {
+            jComboBoxDepartment.setSelectedIndex(1);
+        } else {
+            jComboBoxDepartment.setSelectedIndex(2);
+        }
+
+        //update his status from database
+        //update his status from database
+        /////////////////////////////////////////////////////////////////////////
+        db.st.close();
+        db.con.close();
+
+    }
+
+    private void AddUpdateStudent() throws Exception {
+        String UoB = jTableStudents.getValueAt(jTableStudents.getSelectedRow(), 0).toString();
+
+        DataBase db = new DataBase();
+
+        ResultSet rs = db.getSelectedStudent(UoB);
+
+        /////////////////////////////////////////////////////////////////////////
+        rs.next();
+        /////////////////////////////////////////////////////////////////////////
+        jTextFieldStuUoB.setText(rs.getString("id"));
+        jTextFieldStuName.setText(rs.getString("name"));
+        jTextFieldStuYear.setText(rs.getString("year"));
+        
+        db.st.close();
+        db.con.close();
+        
+    }
+    
+    
 
     /**
      * @param args the command line arguments
@@ -1405,13 +1719,10 @@ public class UserInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
@@ -1419,7 +1730,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBoxDepartment;
     public javax.swing.JTable jGroups;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1433,6 +1744,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
@@ -1477,8 +1789,8 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JTabbedPane jTabHome;
     private javax.swing.JTabbedPane jTabStudentAndTeacher;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTableGroupDetails;
     private javax.swing.JTable jTableStudents;
     private javax.swing.JTable jTableTeachers;
@@ -1498,6 +1810,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextFieldGroupName;
+    private javax.swing.JTextField jTextFieldNewTeacherID;
     private javax.swing.JTextField jTextFieldNewTeacherName;
     private javax.swing.JTextField jTextFieldStuName;
     private javax.swing.JTextField jTextFieldStuUoB;
@@ -1510,5 +1823,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JButton jbAddGroup1;
     private javax.swing.JButton jbAddStudent;
     private javax.swing.JButton jbAddTeacher;
+    private javax.swing.JButton jbSaveGroup;
     // End of variables declaration//GEN-END:variables
+
 }
