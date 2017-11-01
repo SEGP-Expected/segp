@@ -44,7 +44,7 @@ public class DataBase {
 //            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
     }
 
     public ResultSet showCreatedGroups(int year) throws SQLException {
@@ -115,61 +115,57 @@ public class DataBase {
     }
 
     void saveTeacher(String id, String teacherName, String department) throws SQLException {
-        
-       if(id.equals("")){
-        String query = "insert into staff(name,department) values('"+teacherName+"','"+department+"')";
-        System.out.println(query);
-        st.executeUpdate(query);
-       }
-       else{
-        String query = "UPDATE staff set name = '" +teacherName+"', department='"+department+"' where id="+id;
-        System.out.println(query);
-        st.executeUpdate(query);  
-       }
-        
-        
+
+        if (id.equals("")) {
+            String query = "insert into staff(name,department) values('" + teacherName + "','" + department + "')";
+            System.out.println(query);
+            st.executeUpdate(query);
+        } else {
+            String query = "UPDATE staff set name = '" + teacherName + "', department='" + department + "' where id=" + id;
+            System.out.println(query);
+            st.executeUpdate(query);
+        }
+
     }
 
-    void saveStudent(String studentID, String studentName, int year) throws Exception{
-          if(studentID.equals("")){
-        String query = "insert into students(name,year) values('"+studentName+"','"+year+"')";
-        System.out.println(query);
-        st.executeUpdate(query);
-       }
-       else{
-        String query = "UPDATE students set name = '" +studentName+"', year='"+year+"' where id="+studentID;
-        System.out.println(query);
-        st.executeUpdate(query);  
-       }
-    }
-    
-    
-    
-    void saveGroup(String groupName, String[] sNames, int count, String id) throws Exception{
-        String query="select * from groups where name='"+groupName+"'";
-        ResultSet rs=st.executeQuery(query);
-        rs.last();
-        if(rs.getRow()==1){
-            query = "UPDATE groups set istaughtby = " +id+",members="+count+" where name='"+groupName+"'";
+    void saveStudent(String studentID, String studentName, int year) throws Exception {
+        if (studentID.equals("")) {
+            String query = "insert into students(name,year) values('" + studentName + "','" + year + "')";
             System.out.println(query);
-            st.executeUpdate(query);  
-       }
-        
-        
-        
-       else{
-            query = "Insert into groups(name,members,istaughtby) values('" +groupName+"',"+count+","+id+")";
+            st.executeUpdate(query);
+        } else {
+            String query = "UPDATE students set name = '" + studentName + "', year='" + year + "' where id=" + studentID;
             System.out.println(query);
-            st.executeUpdate(query);  
-       }
-        for(String name:sNames){
-            if(name!="")
-                
-                st.executeUpdate("Update students set ismember='"+groupName+"' where id="+Integer.parseInt(name));
+            st.executeUpdate(query);
         }
     }
-    
-    
+
+    void saveGroup(String groupName, String[] sNames, int count, String tid, int year) throws Exception {
+        String query = "select * from groups where name='" + groupName + "'";
+        ResultSet rs = st.executeQuery(query);
+        rs.last();
+        int teacherid = Integer.parseInt(tid);
+        if (rs.getRow() == 1) {
+            System.out.println(query);
+            query = "UPDATE groups set istaughtby = " + teacherid + ", members = " + count + " where name='" + groupName + "'";
+            st.executeUpdate(query);
+        } else {
+            query = "Insert into groups(name,members,istaughtby,year) values('" + groupName + "'," + count + "," + tid + "," + year + ")";
+            System.out.println(query);
+            st.executeUpdate(query);
+        }
+        
+        int id = Integer.parseInt(tid);
+        st.executeUpdate("Update staff set isteaching='"+groupName+"' where id="+id);
+        
+        
+        for (int i=0;i<count;i++) {
+            int idStu = Integer.parseInt(sNames[i]);
+            st.executeUpdate("Update students set ismember='" + groupName + "' where id=" + idStu);
+        }
+       
+    }
+
 //    public int getTeacherID(String tName) throws Exception {
 //        ResultSet rs1 = st.executeQuery("select id from staff where name='" + tName + "'");
 //        rs1.next();
@@ -177,9 +173,13 @@ public class DataBase {
 //        return id;
 //        
 //    }
+    void unAllocateGroup(String gName) throws SQLException {
+        st.executeUpdate("Update students set ismember=null where ismember='" + gName + "'");
+    }
     
-    void unAllocateGroup(String gName) throws SQLException{
-            st.executeUpdate("Update students set ismember=null where ismember='"+gName+"'");
+    void unAllocate(int id)throws Exception{
+          st.executeUpdate("Update students set ismember = null where id=" + id);
     }
 
+ 
 }
