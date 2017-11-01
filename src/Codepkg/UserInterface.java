@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -101,14 +102,16 @@ public class UserInterface extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jTextFieldGroupName = new javax.swing.JTextField();
+        undo = new javax.swing.JButton();
+        jTextFieldTeacherID = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jComboBoxDepartment = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         jTextFieldNewTeacherName = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
+        jbSaveUpdateTeacher = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         jTextFieldNewTeacherID = new javax.swing.JTextField();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -120,11 +123,11 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jTextFieldStuName = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jTextFieldStuYear = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jTextFieldStuUoB = new javax.swing.JTextField();
-        jButton15 = new javax.swing.JButton();
+        jbSaveUpdateStudent = new javax.swing.JButton();
+        jComboBoxYear = new javax.swing.JComboBox<>();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
         jScrollPane10 = new javax.swing.JScrollPane();
@@ -388,7 +391,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -599,36 +602,59 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel19.setText("Group Name");
 
+        undo.setText("Undo");
+        undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoActionPerformed(evt);
+            }
+        });
+
+        jTextFieldTeacherID.setEditable(false);
+        jTextFieldTeacherID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTeacherIDActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setText("ID");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addComponent(jButton8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbSaveGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addComponent(jLabel13)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jTextFieldTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jButton8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbSaveGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel13)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jTextFieldTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(38, 38, 38)
+                                        .addComponent(jLabel21)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(jTextFieldTeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addComponent(jLabel19)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(undo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(jLabel19)
-                .addGap(18, 18, 18)
-                .addComponent(jTextFieldGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -637,19 +663,22 @@ public class UserInterface extends javax.swing.JFrame {
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldGroupName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19))
+                    .addComponent(jLabel19)
+                    .addComponent(undo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldTeacherName)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                    .addComponent(jTextFieldTeacherID)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSaveGroup)
                     .addComponent(jButton8))
@@ -692,17 +721,10 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel15.setText("Department");
 
-        jButton9.setText("Save");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jbSaveUpdateTeacher.setText("Save");
+        jbSaveUpdateTeacher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
-        jButton13.setText("Update");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                jbSaveUpdateTeacherActionPerformed(evt);
             }
         });
 
@@ -723,9 +745,8 @@ public class UserInterface extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jbSaveUpdateTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
@@ -755,9 +776,7 @@ public class UserInterface extends javax.swing.JFrame {
                     .addComponent(jComboBoxDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
                 .addGap(53, 53, 53)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
-                    .addComponent(jButton13))
+                .addComponent(jbSaveUpdateTeacher)
                 .addContainerGap())
         );
 
@@ -780,16 +799,15 @@ public class UserInterface extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
-                            .addComponent(jScrollPane8)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8))
                 .addContainerGap())
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(204, 204, 204)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -798,9 +816,9 @@ public class UserInterface extends javax.swing.JFrame {
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         jTabHome.addTab("Add/Edit Teacher", jPanel6);
@@ -811,18 +829,21 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel22.setText("UoB");
 
+        jTextFieldStuUoB.setEditable(false);
         jTextFieldStuUoB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldStuUoBActionPerformed(evt);
             }
         });
 
-        jButton15.setText("Save");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        jbSaveUpdateStudent.setText("Save");
+        jbSaveUpdateStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                jbSaveUpdateStudentActionPerformed(evt);
             }
         });
+
+        jComboBoxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -831,9 +852,7 @@ public class UserInterface extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(144, 144, 144)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jButton15))
+                    .addComponent(jbSaveUpdateStudent)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel22)
@@ -844,7 +863,7 @@ public class UserInterface extends javax.swing.JFrame {
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldStuUoB, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                             .addComponent(jTextFieldStuName)
-                            .addComponent(jTextFieldStuYear))))
+                            .addComponent(jComboBoxYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(198, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -860,12 +879,12 @@ public class UserInterface extends javax.swing.JFrame {
                     .addComponent(jLabel16))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldStuYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17))
+                    .addComponent(jLabel17)
+                    .addComponent(jComboBoxYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton15)
+                .addComponent(jbSaveUpdateStudent)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -909,7 +928,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         jTabHome.addTab("Add/Edit Student", jPanel7);
@@ -944,15 +963,16 @@ public class UserInterface extends javax.swing.JFrame {
             }
         });
 
+        jGroups.setAutoCreateRowSorter(true);
         jGroups.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Groups"
+                "Groups", "Students"
             }
         ));
-        jGroups.setColumnSelectionAllowed(true);
+        jGroups.setCellSelectionEnabled(false);
         jGroups.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jGroupsMouseClicked(evt);
@@ -1148,7 +1168,40 @@ public class UserInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldTeacherNameActionPerformed
 
     private void jbSaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveGroupActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            saveGroup();
+
+//        String[] sNames=new String[8];
+//        
+//        sNames[0] = jTextField1.getText();
+//        sNames[1] = jTextField2.getText();
+//        sNames[2] = jTextField3.getText();
+//        sNames[3] = jTextField4.getText();
+//        sNames[4] = jTextField5.getText();
+//        sNames[5] = jTextField6.getText();
+//        sNames[6] = jTextField7.getText();
+//        sNames[7] = jTextField8.getText();
+//        
+//        String groupName  = jTextFieldGroupName.getText();
+//        
+//        String teacherName = jTextFieldTeacherName.getText();
+//        DataBase db;
+//        try {
+//            db = new DataBase();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//            db = new DataBase();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        db.saveGroup(groupName,sNames, teacherName);
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
     }//GEN-LAST:event_jbSaveGroupActionPerformed
 
@@ -1160,9 +1213,22 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxDepartmentActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    private void jbSaveUpdateTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveUpdateTeacherActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            saveTeacher();
+            updateTeacher();
+            updateUnGroupedTeacher();
+
+//        saveTeacher();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jbSaveUpdateTeacherActionPerformed
 
     private void jTextFieldStuUoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldStuUoBActionPerformed
         // TODO add your handling code here:
@@ -1180,13 +1246,23 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    private void jbSaveUpdateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveUpdateStudentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
+        try {
+            // TODO add your handling code here:
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+            saveStudent();
+            updateGroupedStudents();
+            updateUnGroupedStudents();
+
+//        saveTeacher();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jbSaveUpdateStudentActionPerformed
 
     private void jGroupsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGroupsMouseClicked
         try {
@@ -1210,13 +1286,11 @@ public class UserInterface extends javax.swing.JFrame {
             if (jTabHome.getSelectedIndex() == 3) {
                 AddUpdateStudent();
             }
-            
-            
+
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
 
     }//GEN-LAST:event_jTableStudentsMouseClicked
 
@@ -1262,7 +1336,6 @@ public class UserInterface extends javax.swing.JFrame {
         jTextFieldGroupName.setText("");
     }
 
-
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
         // TODO add your handling code here:
         jTextField1.setText("");
@@ -1306,6 +1379,14 @@ public class UserInterface extends javax.swing.JFrame {
     private void jTextFieldNewTeacherIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNewTeacherIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNewTeacherIDActionPerformed
+
+    private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_undoActionPerformed
+
+    private void jTextFieldTeacherIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTeacherIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldTeacherIDActionPerformed
 
     public void updateGroupDetails() throws Exception {
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
@@ -1428,13 +1509,14 @@ public class UserInterface extends javax.swing.JFrame {
         }
 
         for (int i = 0; rs.next(); i++) {
-            model.addRow(new Object[]{rs.getString("name")});
+            model.addRow(new Object[]{rs.getString("name"), rs.getInt("members")});
         }
         db.st.close();
         db.con.close();
     }
 
     public void updateGroupedStudents() throws Exception {
+        
         DataBase db = new DataBase();
         ResultSet rs = db.showGroupedStudents(ui.selectedGroup);
 
@@ -1613,7 +1695,8 @@ public class UserInterface extends javax.swing.JFrame {
         /////////////////////////////////////////////////////////////////////////
         if (rs.getString("isteaching") == null) {
 
-            jTextFieldTeacherName.setText(rs.getString("name"));
+            jTextFieldTeacherName.setText(rs.getString("name").trim());
+            jTextFieldTeacherID.setText(rs.getString("id")); //string int auto conversion???//
 
         }
         System.out.println("Can not create group");
@@ -1641,8 +1724,8 @@ public class UserInterface extends javax.swing.JFrame {
         jTextFieldNewTeacherName.setText(rs.getString("name"));
         jTextFieldNewTeacherID.setText(rs.getString("id"));
         String department = rs.getString("department");
-//        String name =((String) jComboBoxDepartment.getSelectedItem()); //what is happening here???
 
+//        String name =((String) jComboBoxDepartment.getSelectedItem()); //what is happening here???
         if (department.equals("CS") || department.equals("cs")) {
             jComboBoxDepartment.setSelectedIndex(0);
         } else if (department.equals("EE") || department.equals("ee")) {
@@ -1671,14 +1754,82 @@ public class UserInterface extends javax.swing.JFrame {
         /////////////////////////////////////////////////////////////////////////
         jTextFieldStuUoB.setText(rs.getString("id"));
         jTextFieldStuName.setText(rs.getString("name"));
-        jTextFieldStuYear.setText(rs.getString("year"));
-        
+
+//        jTextFieldStuYear.setText(rs.getString("year"));  
+        String comboIndex = rs.getString("year");
+        int index = Integer.parseInt(comboIndex);
+        index--;
+        jComboBoxYear.setSelectedIndex(index);
+
         db.st.close();
         db.con.close();
-        
+
     }
-    
-    
+
+    private void saveTeacher() throws SQLException {
+        String teacherName = jTextFieldNewTeacherName.getText();
+        //To change body of generated methods, choose Tools | Templates.
+        String department = ((String) jComboBoxDepartment.getSelectedItem());
+
+        String id = jTextFieldNewTeacherID.getText();
+
+        if (teacherName.length() <= 3 || teacherName.equals("")) {
+            JOptionPane.showMessageDialog(null, "Invalid Name");
+        }
+
+        DataBase db = new DataBase();
+
+        db.saveTeacher(id, teacherName, department);
+
+        db.st.close();
+        db.con.close();
+
+    }
+
+    private void saveStudent() throws Exception {
+        String studentName = jTextFieldStuName.getText();
+        String studentID = jTextFieldStuUoB.getText();
+        String comboIndex = ((String) jComboBoxYear.getSelectedItem());
+        int year = Integer.parseInt(comboIndex);
+
+        DataBase db = new DataBase();
+
+        db.saveStudent(studentID, studentName, year);
+
+        db.st.close();
+        db.con.close();
+    }
+
+    public void saveGroup() throws Exception {
+
+        String[] sNames = new String[8];
+
+        sNames[0] = jTextField1.getText().trim();
+        sNames[1] = jTextField2.getText().trim();
+        sNames[2] = jTextField3.getText().trim();
+        sNames[3] = jTextField4.getText().trim();
+        sNames[4] = jTextField5.getText().trim();
+        sNames[5] = jTextField6.getText().trim();
+        sNames[6] = jTextField7.getText().trim();
+        sNames[7] = jTextField8.getText().trim();
+
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            if (!(sNames[i].equals(""))) {
+                count++;
+
+            }
+        }
+
+        String groupName = jTextFieldGroupName.getText();
+
+        String teacherID = jTextFieldTeacherID.getText();
+
+        DataBase db = new DataBase();
+
+        db.saveGroup(groupName, sNames, count, teacherID);
+
+    }
 
     /**
      * @param args the command line arguments
@@ -1721,16 +1872,14 @@ public class UserInterface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxDepartment;
+    private javax.swing.JComboBox<String> jComboBoxYear;
     public javax.swing.JTable jGroups;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1745,6 +1894,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
@@ -1814,7 +1964,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNewTeacherName;
     private javax.swing.JTextField jTextFieldStuName;
     private javax.swing.JTextField jTextFieldStuUoB;
-    private javax.swing.JTextField jTextFieldStuYear;
+    private javax.swing.JTextField jTextFieldTeacherID;
     private javax.swing.JTextField jTextFieldTeacherName;
     private javax.swing.JTextField jTextField_teacherDepartment;
     private javax.swing.JTextField jTextField_teacherID;
@@ -1824,6 +1974,9 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JButton jbAddStudent;
     private javax.swing.JButton jbAddTeacher;
     private javax.swing.JButton jbSaveGroup;
+    private javax.swing.JButton jbSaveUpdateStudent;
+    private javax.swing.JButton jbSaveUpdateTeacher;
+    private javax.swing.JButton undo;
     // End of variables declaration//GEN-END:variables
 
 }
