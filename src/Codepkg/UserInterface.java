@@ -3,6 +3,7 @@ package Codepkg;
 import static Codepkg.Admin.ui;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -139,6 +140,7 @@ public class UserInterface extends javax.swing.JFrame {
         jbAddGroup = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jGroups = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -1054,6 +1056,9 @@ public class UserInterface extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel18.setFont(new java.awt.Font("Microsoft YaHei Light", 1, 18)); // NOI18N
+        jLabel18.setText("Coursework 1 (20%): Tutorial Groups Allocation System");
+
         jMenu1.setText("File");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
@@ -1084,6 +1089,9 @@ public class UserInterface extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator3)
@@ -1105,7 +1113,9 @@ public class UserInterface extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap()
+                .addComponent(jLabel18)
+                .addGap(4, 4, 4)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1128,28 +1138,48 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jbAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddGroupActionPerformed
         // TODO add your handling code here:
-        clearFields();
-         
-         jbAddGroup.setEnabled(false);
-         jbAddTeacher.setEnabled(false);
-         jbAddStudent.setEnabled(false);
-            
-        jTabHome.setEnabledAt(2,false);
-        jTabHome.setEnabledAt(3,false);
         
+
+        jbAddGroup.setEnabled(false);
+        jbAddTeacher.setEnabled(false);
+        jbAddStudent.setEnabled(false);
+
+        jTabHome.setEnabledAt(2, false);
+        jTabHome.setEnabledAt(3, false);
 
         jTextFieldGroupName.setEditable(true);
 
         int count = 0;
         jTabHome.setSelectedIndex(1);
+
         try {
             DataBase db = new DataBase();
             ResultSet rs = db.showCreatedGroups(ui.selectedYear);
-            while (rs.next()) {
-                count++;
+
+            String name = "Group0" + count;
+            ArrayList<String> array = new ArrayList();
+
+            for (int i = 0; rs.next(); i++) {
+                array.add(rs.getString("name").trim());
+                System.out.println("Index:" + i + " Name: " + array.get(i));
             }
-            count++;
-            jTextFieldGroupName.setText("Group0" + count);
+            
+            for (int i = 0; i < array.size(); i++) {
+                if ((array.get(i).trim().equals(name))) {
+                    count++;
+                    name = "Group0" + count;
+                    i = -1;
+                     System.out.println("lets do this again");
+                }
+                System.out.println("(array.get("+i+").equals("+name+")" );
+            }
+
+            jTextFieldGroupName.setText(name);
+
+            db.st.close();
+            db.con.close();
+            
+            clearFields();
 
         } catch (Exception ex) {
 
@@ -1197,18 +1227,31 @@ public class UserInterface extends javax.swing.JFrame {
     private void jbAddTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddTeacherActionPerformed
         // TODO add your handling code here:
         jTabHome.setSelectedIndex(2);
+        clearStudents();
     }//GEN-LAST:event_jbAddTeacherActionPerformed
+
+    void clearStudents() {
+        jTextFieldStuName.setText("");
+        jTextFieldStuUoB.setText("");
+        jComboBoxYear.setSelectedIndex(0);
+    }
 
     private void jbAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddStudentActionPerformed
         // TODO add your handling code here:
         jTabHome.setSelectedIndex(3);
+        clearTeacher();
     }//GEN-LAST:event_jbAddStudentActionPerformed
+
+    void clearTeacher() {
+        jTextFieldNewTeacherID.setText("");
+        jTextFieldNewTeacherName.setText("");
+        jComboBoxDepartment.setSelectedIndex(2);
+    }
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-       
-       
-       
+
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -1222,17 +1265,18 @@ public class UserInterface extends javax.swing.JFrame {
     private void jbSaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveGroupActionPerformed
         try {
             // TODO add your handling code here:
-            jTabHome.setEnabledAt(2,true);
-            jTabHome.setEnabledAt(3,true);
-            jbAddGroup.setEnabled(true);
-            jbAddTeacher.setEnabled(true);
-            jbAddStudent.setEnabled(true);
-            
             
             
             saveGroup();
 
-            
+            ReFresh();
+
+            jTabHome.setEnabledAt(2, true);
+            jTabHome.setEnabledAt(3, true);
+            jbAddGroup.setEnabled(true);
+            jbAddTeacher.setEnabled(true);
+            jbAddStudent.setEnabled(true);
+
 //        String[] sNames=new String[8];
 //        
 //        sNames[0] = jTextField1.getText();
@@ -1259,6 +1303,8 @@ public class UserInterface extends javax.swing.JFrame {
 //            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        db.saveGroup(groupName,sNames, teacherName);
+        clearFields();
+        jTextFieldGroupName.setText("");
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1273,6 +1319,7 @@ public class UserInterface extends javax.swing.JFrame {
     private void jComboBoxDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDepartmentActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxDepartmentActionPerformed
+
 
     private void jbSaveUpdateTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveUpdateTeacherActionPerformed
         try {
@@ -1326,17 +1373,17 @@ public class UserInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jbSaveUpdateStudentActionPerformed
 
     private void jGroupsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGroupsMouseClicked
-       
+
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
         jTextField_Gname.setText(groupName);
-        
+
         try {
             // TODO add your handling code here:
             if (jTabHome.getSelectedIndex() == 0) {
                 updateGroupDetails();
             } else if (jTabHome.getSelectedIndex() == 1) {
                 populateEditGroup();
-                
+
             }
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1384,6 +1431,9 @@ public class UserInterface extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         clearFields();
+        jTextFieldGroupName.setEnabled(true);
+        jTextFieldGroupName.setText("");
+        
     }//GEN-LAST:event_jButton8ActionPerformed
 
     public void clearFields() {
@@ -1396,6 +1446,7 @@ public class UserInterface extends javax.swing.JFrame {
         jTextField7.setText("");
         jTextField8.setText("");
         jTextFieldNewTeacherName.setText("");
+
     }
 
     public void clearGroupName() {
@@ -1404,14 +1455,13 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
         // TODO add your handling code here:
-        
-        
+
         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField1.getText().trim());
-           db.unAllocateAstudent(id);
-            
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField1.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1424,18 +1474,18 @@ public class UserInterface extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void jTextField2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseClicked
         // TODO add your handling code here:
         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField2.getText().trim());
-           db.unAllocateAstudent(id);
-            
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField2.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1452,12 +1502,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField3MouseClicked
         // TODO add your handling code here:
-         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField3.getText().trim());
-           db.unAllocateAstudent(id);
-            
+        try {
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField3.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1474,12 +1524,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField4MouseClicked
         // TODO add your handling code here:
-         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField4.getText().trim());
-           db.unAllocateAstudent(id);
-            
+        try {
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField4.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1496,12 +1546,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseClicked
         // TODO add your handling code here:
-         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField5.getText().trim());
-           db.unAllocateAstudent(id);
-            
+        try {
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField5.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1518,12 +1568,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField6MouseClicked
         // TODO add your handling code here:
-         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField6.getText().trim());
-           db.unAllocateAstudent(id);
-            
+        try {
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField6.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1540,12 +1590,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField7MouseClicked
         // TODO add your handling code here:
-         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField7.getText().trim());
-           db.unAllocateAstudent(id);
-            
+        try {
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField7.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1562,12 +1612,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jTextField8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField8MouseClicked
         // TODO add your handling code here:
-         try {
-           DataBase db;
-           db = new DataBase();
-           int id = Integer.parseInt(jTextField8.getText().trim());
-           db.unAllocateAstudent(id);
-            
+        try {
+            DataBase db;
+            db = new DataBase();
+            int id = Integer.parseInt(jTextField8.getText().trim());
+            db.unAllocateAstudent(id);
+
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1597,7 +1647,7 @@ public class UserInterface extends javax.swing.JFrame {
     private void jbDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDeleteActionPerformed
         try {
             // TODO add your handling code here:
-            
+
             DataBase db = new DataBase();
             db.unAllocateStudentsfromGroup(jTextField_Gname.getText().trim());
             db.unAllocateTeacher(jTextField_Gname.getText().trim());
@@ -1605,13 +1655,13 @@ public class UserInterface extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             ReFresh();
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jbDeleteActionPerformed
 
     public void updateGroupDetails() throws Exception {
@@ -1623,14 +1673,13 @@ public class UserInterface extends javax.swing.JFrame {
 
         /////////////////////////////////////////////////////////////////////////
         rs.next();
-       
+
 //        jTextField_Gname.setText(groupName);
         jTextField_teacherName.setText(rs.getString("name"));
         jTextField_teacherDepartment.setText(rs.getString("department"));
         jTextField_teacherID.setText(rs.getString("id"));
-        
-/////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////
         rs = db.showStudentsDetail(groupName);
 
         DefaultTableModel model;
@@ -1641,11 +1690,11 @@ public class UserInterface extends javax.swing.JFrame {
                 model.removeRow(i);
             }
         }
-       
+
         for (int i = 0; rs.next(); i++) {
             model.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getInt("year")});
         }
-       
+
         db.st.close();
         db.con.close();
 
@@ -1657,7 +1706,7 @@ public class UserInterface extends javax.swing.JFrame {
         DataBase db = new DataBase();
 
         ResultSet rs = db.showTeacherDetail(groupName);
-        
+
         jTextFieldGroupName.setEditable(false);
         jTextFieldGroupName.setText(groupName);
 
@@ -1720,9 +1769,8 @@ public class UserInterface extends javax.swing.JFrame {
         } else {
             return;
         }
-        
+
 //        db.unAllocateGroup(groupName);
-        
         db.st.close();
         db.con.close();
 
@@ -1749,7 +1797,7 @@ public class UserInterface extends javax.swing.JFrame {
     }
 
     public void updateGroupedStudents() throws Exception {
-        
+
         DataBase db = new DataBase();
         ResultSet rs = db.showGroupedStudents(ui.selectedYear);
 
@@ -2060,19 +2108,19 @@ public class UserInterface extends javax.swing.JFrame {
 
         DataBase db = new DataBase();
 
-        db.saveGroup(groupName, sNames, count, teacherID,ui.selectedYear);
+        db.saveGroup(groupName, sNames, count, teacherID, ui.selectedYear);
 
     }
-    
-    void ReFresh() throws Exception{
+
+    void ReFresh() throws Exception {
         updateGroups();
-        
+
         updateGroupedStudents();
         updateUnGroupedStudents();
-        
+
         updateTeacher();
         updateUnGroupedTeacher();
-        
+
     }
 
     /**
@@ -2133,6 +2181,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
