@@ -70,7 +70,7 @@ public class UserInterface extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jbDelete = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        jTextFieldGname = new javax.swing.JTextField();
+        jTextField_Gname = new javax.swing.JTextField();
         jPanelAddGroup = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jbSaveGroup = new javax.swing.JButton();
@@ -211,7 +211,15 @@ public class UserInterface extends javax.swing.JFrame {
             new String [] {
                 "UoB", "Name", "Year", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableStudents.setToolTipText("(+) Click to add in new group");
         jTableStudents.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -288,7 +296,13 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel1.setText("Teacher Name");
 
+        jTextField_teacherName.setEditable(false);
+
         jLabel3.setText("ID");
+
+        jTextField_teacherID.setEditable(false);
+
+        jTextField_teacherDepartment.setEditable(false);
 
         jLabel4.setText("Department");
 
@@ -311,7 +325,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jTextField_teacherDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,7 +353,15 @@ public class UserInterface extends javax.swing.JFrame {
             new String [] {
                 "UoB", "Name", "Year"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableGroupDetails.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jTableGroupDetails.setRowHeight(25);
         jTableGroupDetails.setRowMargin(10);
@@ -366,14 +388,8 @@ public class UserInterface extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldGname.setEditable(false);
-        jTextFieldGname.setText("Name");
-        jTextFieldGname.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextFieldGname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldGnameActionPerformed(evt);
-            }
-        });
+        jTextField_Gname.setEditable(false);
+        jTextField_Gname.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -392,19 +408,19 @@ public class UserInterface extends javax.swing.JFrame {
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(351, 351, 351)
-                .addComponent(jTextFieldGname, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(301, 301, 301)
+                .addComponent(jTextField_Gname, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextFieldGname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(jTextField_Gname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -984,7 +1000,16 @@ public class UserInterface extends javax.swing.JFrame {
             new String [] {
                 "Groups", "Students"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jGroups.setColumnSelectionAllowed(true);
         jGroups.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jGroupsMouseClicked(evt);
@@ -992,6 +1017,10 @@ public class UserInterface extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(jGroups);
         jGroups.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jGroups.getColumnModel().getColumnCount() > 0) {
+            jGroups.getColumnModel().getColumn(0).setHeaderValue("Groups");
+            jGroups.getColumnModel().getColumn(1).setHeaderValue("Students");
+        }
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -1100,6 +1129,14 @@ public class UserInterface extends javax.swing.JFrame {
     private void jbAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddGroupActionPerformed
         // TODO add your handling code here:
         clearFields();
+         
+         jbAddGroup.setEnabled(false);
+         jbAddTeacher.setEnabled(false);
+         jbAddStudent.setEnabled(false);
+            
+        jTabHome.setEnabledAt(2,false);
+        jTabHome.setEnabledAt(3,false);
+        
 
         jTextFieldGroupName.setEditable(true);
 
@@ -1185,8 +1222,17 @@ public class UserInterface extends javax.swing.JFrame {
     private void jbSaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveGroupActionPerformed
         try {
             // TODO add your handling code here:
+            jTabHome.setEnabledAt(2,true);
+            jTabHome.setEnabledAt(3,true);
+            jbAddGroup.setEnabled(true);
+            jbAddTeacher.setEnabled(true);
+            jbAddStudent.setEnabled(true);
+            
+            
+            
             saveGroup();
 
+            
 //        String[] sNames=new String[8];
 //        
 //        sNames[0] = jTextField1.getText();
@@ -1280,6 +1326,10 @@ public class UserInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jbSaveUpdateStudentActionPerformed
 
     private void jGroupsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGroupsMouseClicked
+       
+        String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
+        jTextField_Gname.setText(groupName);
+        
         try {
             // TODO add your handling code here:
             if (jTabHome.getSelectedIndex() == 0) {
@@ -1360,7 +1410,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField1.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1384,7 +1434,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField2.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1406,7 +1456,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField3.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1428,7 +1478,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField4.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1450,7 +1500,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField5.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1472,7 +1522,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField6.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1494,7 +1544,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField7.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1516,7 +1566,7 @@ public class UserInterface extends javax.swing.JFrame {
            DataBase db;
            db = new DataBase();
            int id = Integer.parseInt(jTextField8.getText().trim());
-           db.unAllocate(id);
+           db.unAllocateAstudent(id);
             
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1545,13 +1595,24 @@ public class UserInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldTeacherIDActionPerformed
 
     private void jbDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDeleteActionPerformed
-        // TODO add your handling code here:
-       
+        try {
+            // TODO add your handling code here:
+            
+            DataBase db = new DataBase();
+            db.unAllocateStudentsfromGroup(jTextField_Gname.getText().trim());
+            db.unAllocateTeacher(jTextField_Gname.getText().trim());
+            db.deleteGroup(jTextField_Gname.getText().trim());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            ReFresh();
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jbDeleteActionPerformed
-
-    private void jTextFieldGnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldGnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldGnameActionPerformed
 
     public void updateGroupDetails() throws Exception {
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
@@ -1562,11 +1623,13 @@ public class UserInterface extends javax.swing.JFrame {
 
         /////////////////////////////////////////////////////////////////////////
         rs.next();
-        jTextFieldGname.setText(groupName);
+       
+//        jTextField_Gname.setText(groupName);
         jTextField_teacherName.setText(rs.getString("name"));
         jTextField_teacherDepartment.setText(rs.getString("department"));
         jTextField_teacherID.setText(rs.getString("id"));
-        /////////////////////////////////////////////////////////////////////////
+        
+/////////////////////////////////////////////////////////////////////////
 
         rs = db.showStudentsDetail(groupName);
 
@@ -2000,6 +2063,17 @@ public class UserInterface extends javax.swing.JFrame {
         db.saveGroup(groupName, sNames, count, teacherID,ui.selectedYear);
 
     }
+    
+    void ReFresh() throws Exception{
+        updateGroups();
+        
+        updateGroupedStudents();
+        updateUnGroupedStudents();
+        
+        updateTeacher();
+        updateUnGroupedTeacher();
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -2127,7 +2201,6 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextFieldGname;
     private javax.swing.JTextField jTextFieldGroupName;
     private javax.swing.JTextField jTextFieldNewTeacherID;
     private javax.swing.JTextField jTextFieldNewTeacherName;
@@ -2135,6 +2208,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldStuUoB;
     private javax.swing.JTextField jTextFieldTeacherID;
     private javax.swing.JTextField jTextFieldTeacherName;
+    private javax.swing.JTextField jTextField_Gname;
     private javax.swing.JTextField jTextField_teacherDepartment;
     private javax.swing.JTextField jTextField_teacherID;
     private javax.swing.JTextField jTextField_teacherName;

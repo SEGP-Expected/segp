@@ -173,12 +173,21 @@ public class DataBase {
 //        return id;
 //        
 //    }
-    void unAllocateGroup(String gName) throws SQLException {
+    void unAllocateStudentsfromGroup(String gName) throws SQLException {
         st.executeUpdate("Update students set ismember=null where ismember='" + gName + "'");
     }
     
-    void unAllocate(int id)throws Exception{
+    void unAllocateAstudent(int id)throws Exception{
           st.executeUpdate("Update students set ismember = null where id=" + id);
+    }
+    
+    void unAllocateTeacher(String groupName) throws SQLException{
+         st.executeUpdate("Update staff set isteaching=null where isteaching='"+groupName+"'");
+    }
+
+    void deleteGroup(String groupName) throws SQLException {
+        //To change body of generated methods, choose Tools | Templates.
+        st.executeUpdate("delete from groups where name='"+groupName+"'");
     }
 
  

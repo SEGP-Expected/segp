@@ -17,11 +17,9 @@ public class Admin {
        ui = new UserInterface();
        ui.updateGroups();
 //       admin.showGroups();               
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ui.setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> {  //anonymous inner class creation can be turned in to lambda (->) expression
+            ui.setVisible(true);
+       });
     }
 //    
 //    public void showGroups() throws Exception{
