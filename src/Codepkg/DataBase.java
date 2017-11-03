@@ -10,6 +10,16 @@ package Codepkg;
  * @author Mr.Faizan Sh
  */
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,6 +28,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+
+import java.io.FileOutputStream;
+import jdk.nashorn.internal.scripts.JD;
 
 public class DataBase {
 
@@ -160,9 +174,12 @@ public class DataBase {
         st.executeUpdate("Update staff set isteaching='"+groupName+"' where id="+id);
         
         
-        for (int i=0;i<count;i++) {
-            int idStu = Integer.parseInt(sNames[i]);
-            st.executeUpdate("Update students set ismember='" + groupName + "' where id=" + idStu);
+        for (String name:sNames) {
+            if(!name.equals("")){
+                 int idStu = Integer.parseInt(name);
+                st.executeUpdate("Update students set ismember='" + groupName + "' where id=" + idStu);
+            }
+
         }
        
     }
@@ -174,6 +191,15 @@ public class DataBase {
 //        return id;
 //        
 //    }
+    int checkException() throws SQLException {
+        String faltu = "select count(members) from groups where members < 4";
+        ResultSet rs = st.executeQuery(faltu);
+        rs.next();
+        int i = Integer.parseInt(rs.getString("count"));
+        return i;
+        
+    }
+    
     void unAllocateStudentsfromGroup(String gName) throws SQLException {
         st.executeUpdate("Update students set ismember=null where ismember='" + gName + "'");
     }
@@ -190,6 +216,47 @@ public class DataBase {
         //To change body of generated methods, choose Tools | Templates.
         st.executeUpdate("delete from groups where name='"+groupName+"'");
     }
-
+    
+    void printDatabase() throws SQLException, FileNotFoundException, DocumentException{
+        ResultSet rs=st.executeQuery("select * from students");
+        
+        Document doc=new Document();
+        PdfWriter.getInstance(doc, new FileOutputStream("output.pdf"));
+        doc.open();
+        PdfPTable table=new PdfPTable(4);
+        
+        PdfPCell cell1=new PdfPCell(new Paragraph("ID"));
+        cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell1.setBackgroundColor(BaseColor.DARK_GRAY);
+        
+        
+        PdfPCell cell2=new PdfPCell(new Paragraph("Name"));
+        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell2.setBackgroundColor(BaseColor.DARK_GRAY);
+        
+        PdfPCell cell3=new PdfPCell(new Paragraph("Year"));
+        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell3.setBackgroundColor(BaseColor.DARK_GRAY);
+        
+        PdfPCell cell4=new PdfPCell(new Paragraph("Group"));
+        cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell4.setBackgroundColor(BaseColor.DARK_GRAY);
+        
+        table.addCell(cell1);
+        table.addCell(cell2);
+        table.addCell(cell3);
+        table.addCell(cell4);
+        rs.next();
+        do{
+            table.addCell(rs.getInt("id")+"");
+            table.addCell(rs.getString("name"));
+            table.addCell(rs.getInt("year")+"");
+            table.addCell(rs.getString("ismember"));
+        }while(rs.next());
+        doc.add(table);
+        
+        doc.close();
+    }
+    
  
 }

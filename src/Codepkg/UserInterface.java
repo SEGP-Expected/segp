@@ -24,6 +24,7 @@ public class UserInterface extends javax.swing.JFrame {
      * Creates new form userinterce
      */
     public static int selectedYear;
+    private String[] slist;
 
     public UserInterface() {
         selectedYear = 1;
@@ -106,6 +107,7 @@ public class UserInterface extends javax.swing.JFrame {
         undo = new javax.swing.JButton();
         jTextFieldTeacherID = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
+        jbSaveGroup1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jComboBoxDepartment = new javax.swing.JComboBox<>();
@@ -295,6 +297,12 @@ public class UserInterface extends javax.swing.JFrame {
 
         jTabStudentAndTeacher.getAccessibleContext().setAccessibleName("Students");
         jTabStudentAndTeacher.getAccessibleContext().setAccessibleDescription("Unalocated Students");
+
+        jTabHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabHomeMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Teacher Name");
 
@@ -569,7 +577,7 @@ public class UserInterface extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField1)
                     .addComponent(jTextField2)
@@ -649,6 +657,13 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel21.setText("ID");
 
+        jbSaveGroup1.setText("Cancel");
+        jbSaveGroup1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSaveGroup1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -661,22 +676,26 @@ public class UserInterface extends javax.swing.JFrame {
                             .addComponent(jScrollPane1)
                             .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jButton8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbSaveGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel13)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(jTextFieldTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(jLabel21)
+                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(jLabel13)
+                                                .addGap(29, 29, 29)
+                                                .addComponent(jTextFieldTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(38, 38, 38)
+                                                .addComponent(jLabel21))
+                                            .addComponent(jButton8))
                                         .addGap(28, 28, 28)
-                                        .addComponent(jTextFieldTeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jbSaveGroup1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jbSaveGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jTextFieldTeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(186, 186, 186)
@@ -712,7 +731,8 @@ public class UserInterface extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSaveGroup)
-                    .addComponent(jButton8))
+                    .addComponent(jButton8)
+                    .addComponent(jbSaveGroup1))
                 .addContainerGap())
         );
 
@@ -1138,8 +1158,8 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jbAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddGroupActionPerformed
         // TODO add your handling code here:
-        
 
+        backupMembers();
         jbAddGroup.setEnabled(false);
         jbAddTeacher.setEnabled(false);
         jbAddStudent.setEnabled(false);
@@ -1163,22 +1183,22 @@ public class UserInterface extends javax.swing.JFrame {
                 array.add(rs.getString("name").trim());
                 System.out.println("Index:" + i + " Name: " + array.get(i));
             }
-            
+
             for (int i = 0; i < array.size(); i++) {
                 if ((array.get(i).trim().equals(name))) {
                     count++;
                     name = "Group0" + count;
                     i = -1;
-                     System.out.println("lets do this again");
+                    System.out.println("lets do this again");
                 }
-                System.out.println("(array.get("+i+").equals("+name+")" );
+                System.out.println("(array.get(" + i + ").equals(" + name + ")");
             }
 
             jTextFieldGroupName.setText(name);
 
             db.st.close();
             db.con.close();
-            
+
             clearFields();
 
         } catch (Exception ex) {
@@ -1200,6 +1220,14 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        DataBase db;
+        try {
+            db = new DataBase();
+            db.printDatabase();
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -1265,8 +1293,7 @@ public class UserInterface extends javax.swing.JFrame {
     private void jbSaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveGroupActionPerformed
         try {
             // TODO add your handling code here:
-            
-            
+
             saveGroup();
 
             ReFresh();
@@ -1276,35 +1303,9 @@ public class UserInterface extends javax.swing.JFrame {
             jbAddGroup.setEnabled(true);
             jbAddTeacher.setEnabled(true);
             jbAddStudent.setEnabled(true);
+            clearFields();
+            jTextFieldGroupName.setText("");
 
-//        String[] sNames=new String[8];
-//        
-//        sNames[0] = jTextField1.getText();
-//        sNames[1] = jTextField2.getText();
-//        sNames[2] = jTextField3.getText();
-//        sNames[3] = jTextField4.getText();
-//        sNames[4] = jTextField5.getText();
-//        sNames[5] = jTextField6.getText();
-//        sNames[6] = jTextField7.getText();
-//        sNames[7] = jTextField8.getText();
-//        
-//        String groupName  = jTextFieldGroupName.getText();
-//        
-//        String teacherName = jTextFieldTeacherName.getText();
-//        DataBase db;
-//        try {
-//            db = new DataBase();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try {
-//            db = new DataBase();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        db.saveGroup(groupName,sNames, teacherName);
-        clearFields();
-        jTextFieldGroupName.setText("");
         } catch (Exception ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1433,7 +1434,7 @@ public class UserInterface extends javax.swing.JFrame {
         clearFields();
         jTextFieldGroupName.setEnabled(true);
         jTextFieldGroupName.setText("");
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     public void clearFields() {
@@ -1445,8 +1446,8 @@ public class UserInterface extends javax.swing.JFrame {
         jTextField6.setText("");
         jTextField7.setText("");
         jTextField8.setText("");
-        jTextFieldNewTeacherName.setText("");
-
+        jTextFieldTeacherName.setText("");
+        jTextFieldTeacherID.setText("");
     }
 
     public void clearGroupName() {
@@ -1663,6 +1664,31 @@ public class UserInterface extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jbDeleteActionPerformed
+
+    private void jbSaveGroup1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveGroup1ActionPerformed
+        jTabHome.setEnabledAt(2, true);
+        jTabHome.setEnabledAt(3, true);
+        jbAddGroup.setEnabled(true);
+        jbAddTeacher.setEnabled(true);
+        jbAddStudent.setEnabled(true);
+        clearFields();
+        jTextFieldGroupName.setText("");
+        jTabHome.setSelectedIndex(0);
+
+        try {
+            // TODO add your handling code here:
+            restore();
+
+            //NEW CODE @ 5 o clock by faizan Ullah
+        } catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbSaveGroup1ActionPerformed
+
+    private void jTabHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabHomeMouseClicked
+        // TODO add your handling code here:
+        backupMembers();
+    }//GEN-LAST:event_jTabHomeMouseClicked
 
     public void updateGroupDetails() throws Exception {
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();
@@ -2101,14 +2127,34 @@ public class UserInterface extends javax.swing.JFrame {
 
             }
         }
-
+        if (count <= 1) {
+            JOptionPane.showMessageDialog(null, "There can only be at least 2 members in a group");
+            return;
+        }
         String groupName = jTextFieldGroupName.getText();
-
+        if (groupName.equals("")) {
+            JOptionPane.showMessageDialog(null, "Group name can not be empty.");
+            return;
+        }
         String teacherID = jTextFieldTeacherID.getText();
 
-        DataBase db = new DataBase();
+        if (teacherID.equals("")) {
+            JOptionPane.showMessageDialog(null, "Group can not exist without a teacher.");
+            return;
+        }
 
-        db.saveGroup(groupName, sNames, count, teacherID, ui.selectedYear);
+        DataBase db = new DataBase();
+        int nOfgroups3members = db.checkException();
+        System.out.println(nOfgroups3members + " groups pehlay he bannay howe hain");
+
+        if (nOfgroups3members >= 3 && count < 4) {
+            JOptionPane.showMessageDialog(null, "There can only be three groups with less than 4 members.");
+            return;
+        } else {
+            db.saveGroup(groupName, sNames, count, teacherID, ui.selectedYear);
+            JOptionPane.showMessageDialog(null, "Group name " + groupName + " has been Created");
+            jTabHome.setSelectedIndex(0);
+        }
 
     }
 
@@ -2160,6 +2206,36 @@ public class UserInterface extends javax.swing.JFrame {
             }
         });
     }
+
+    public void backupMembers() {
+        slist = new String[8];
+        slist[0] = jTextField1.getText().trim();
+        slist[1] = jTextField2.getText().trim();
+        slist[2] = jTextField3.getText().trim();
+        slist[3] = jTextField4.getText().trim();
+        slist[4] = jTextField5.getText().trim();
+        slist[5] = jTextField6.getText().trim();
+        slist[6] = jTextField7.getText().trim();
+        slist[7] = jTextField8.getText().trim();
+
+    }
+
+    public void restore() throws SQLException, Exception {
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            if (!(slist[i].equals(""))) {
+                count++;
+            }
+        }
+
+        String groupName = jTextFieldGroupName.getText();
+
+        String teacherID = jTextFieldTeacherID.getText();
+        DataBase db = new DataBase();
+        db.saveGroup(groupName, slist, count, teacherID, ui.selectedYear);
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton11;
@@ -2267,6 +2343,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JButton jbAddTeacher;
     private javax.swing.JButton jbDelete;
     private javax.swing.JButton jbSaveGroup;
+    private javax.swing.JButton jbSaveGroup1;
     private javax.swing.JButton jbSaveUpdateStudent;
     private javax.swing.JButton jbSaveUpdateTeacher;
     private javax.swing.JButton undo;
