@@ -1,6 +1,8 @@
 package Codepkg;
 
 import static Codepkg.Admin.ui;
+import com.itextpdf.text.DocumentException;
+import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -71,7 +73,6 @@ public class UserInterface extends javax.swing.JFrame {
         jTableGroupDetails = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jbDelete = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jTextField_Gname = new javax.swing.JTextField();
         jPanelAddGroup = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -260,7 +261,7 @@ public class UserInterface extends javax.swing.JFrame {
             }
         });
 
-        jButton12.setText("Print Students and Teachers to PDF");
+        jButton12.setText("Print Table to PDF");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
@@ -391,13 +392,6 @@ public class UserInterface extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setText("Print to PDF");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-
         jTextField_Gname.setEditable(false);
         jTextField_Gname.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -412,9 +406,7 @@ public class UserInterface extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jbDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(237, 237, 237)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -434,8 +426,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jbDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTabHome.addTab("Group Details", jPanel4);
@@ -1343,16 +1334,38 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldStuUoBActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
     private void jbAddGroup1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddGroup1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            DataBase db= new DataBase();
+            db.printGroups();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
     }//GEN-LAST:event_jbAddGroup1ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        // Students And Teachers table
+        DataBase db;
+        try {
+            db = new DataBase();
+            if (jTabStudentAndTeacher.getSelectedIndex() == 0){
+               db.printStudents();
+            }
+            else if (jTabStudentAndTeacher.getSelectedIndex() == 1){
+                db.printTeachers();
+            }        
+        } catch (SQLException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jbSaveUpdateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveUpdateStudentActionPerformed
@@ -2238,7 +2251,6 @@ public class UserInterface extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
