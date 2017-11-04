@@ -9,7 +9,6 @@ package Codepkg;
  *
  * @author Mr.Faizan Sh
  */
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -30,7 +29,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import java.io.FileOutputStream;
 import jdk.nashorn.internal.scripts.JD;
 
@@ -41,6 +39,7 @@ public class DataBase {
     String pass;
     Connection con;
     Statement st;
+
     public DataBase() throws SQLException {
         url = "jdbc:postgresql://localhost:5432/tgms";
         name = "postgres";
@@ -169,19 +168,18 @@ public class DataBase {
             System.out.println(query);
             st.executeUpdate(query);
         }
-        
+
         int id = Integer.parseInt(tid);
-        st.executeUpdate("Update staff set isteaching='"+groupName+"' where id="+id);
-        
-        
-        for (String name:sNames) {
-            if(!name.equals("")){
-                 int idStu = Integer.parseInt(name);
+        st.executeUpdate("Update staff set isteaching='" + groupName + "' where id=" + id);
+
+        for (String name : sNames) {
+            if (!name.equals("")) {
+                int idStu = Integer.parseInt(name);
                 st.executeUpdate("Update students set ismember='" + groupName + "' where id=" + idStu);
             }
 
         }
-       
+
     }
 
 //    public int getTeacherID(String tName) throws Exception {
@@ -197,262 +195,271 @@ public class DataBase {
         rs.next();
         int i = Integer.parseInt(rs.getString("count"));
         return i;
-        
+
     }
-    
+
     void unAllocateStudentsfromGroup(String gName) throws SQLException {
         st.executeUpdate("Update students set ismember=null where ismember='" + gName + "'");
     }
-    
-    void unAllocateAstudent(int id)throws Exception{
-          st.executeUpdate("Update students set ismember = null where id=" + id);
+
+    void unAllocateAstudent(int id) throws Exception {
+        st.executeUpdate("Update students set ismember = null where id=" + id);
     }
-    
-    void unAllocateTeacher(String groupName) throws SQLException{
-         st.executeUpdate("Update staff set isteaching=null where isteaching='"+groupName+"'");
+
+    void unAllocateTeacher(String groupName) throws SQLException {
+        st.executeUpdate("Update staff set isteaching=null where isteaching='" + groupName + "'");
     }
 
     void deleteGroup(String groupName) throws SQLException {
         //To change body of generated methods, choose Tools | Templates.
-        st.executeUpdate("delete from groups where name='"+groupName+"'");
+        st.executeUpdate("delete from groups where name='" + groupName + "'");
     }
-    
-    void printStudents() throws SQLException, FileNotFoundException, DocumentException{
-        ResultSet rs=st.executeQuery("select * from students");
-        
-        Document doc=new Document();
+
+    void printStudents() throws SQLException, FileNotFoundException, DocumentException {
+        ResultSet rs = st.executeQuery("select * from students");
+
+        Document doc = new Document();
         PdfWriter.getInstance(doc, new FileOutputStream("Students.pdf"));
         doc.open();
-        PdfPTable table=new PdfPTable(4);
-        
-        PdfPCell cell1=new PdfPCell(new Paragraph("ID"));
+        PdfPTable table = new PdfPTable(4);
+
+        PdfPCell cell1 = new PdfPCell(new Paragraph("ID"));
         cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        
-        PdfPCell cell2=new PdfPCell(new Paragraph("Name"));
+
+        PdfPCell cell2 = new PdfPCell(new Paragraph("Name"));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell3=new PdfPCell(new Paragraph("Year"));
+
+        PdfPCell cell3 = new PdfPCell(new Paragraph("Year"));
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell3.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell4=new PdfPCell(new Paragraph("Group"));
+
+        PdfPCell cell4 = new PdfPCell(new Paragraph("Group"));
         cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell4.setBackgroundColor(BaseColor.DARK_GRAY);
-        
+
         table.addCell(cell1);
         table.addCell(cell2);
         table.addCell(cell3);
         table.addCell(cell4);
         rs.next();
-        do{
-            table.addCell(rs.getInt("id")+"");
+        do {
+            table.addCell(rs.getInt("id") + "");
             table.addCell(rs.getString("name"));
-            table.addCell(rs.getInt("year")+"");
+            table.addCell(rs.getInt("year") + "");
             table.addCell(rs.getString("ismember"));
-        }while(rs.next());
+        } while (rs.next());
         doc.add(table);
-        
+
         doc.close();
     }
-    void printGroups() throws SQLException, FileNotFoundException, DocumentException{
-        ResultSet rs=st.executeQuery("select * from groups");
-        
-        Document doc=new Document();
+
+    void printGroups() throws SQLException, FileNotFoundException, DocumentException {
+        ResultSet rs = st.executeQuery("select * from groups");
+
+        Document doc = new Document();
         PdfWriter.getInstance(doc, new FileOutputStream("Groups.pdf"));
         doc.open();
-        PdfPTable table=new PdfPTable(4);
-        
-        PdfPCell cell1=new PdfPCell(new Paragraph("Name"));
+        PdfPTable table = new PdfPTable(4);
+
+        PdfPCell cell1 = new PdfPCell(new Paragraph("Name"));
         cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        
-        PdfPCell cell2=new PdfPCell(new Paragraph("Members"));
+
+        PdfPCell cell2 = new PdfPCell(new Paragraph("Members"));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell3=new PdfPCell(new Paragraph("isTaughtBy"));
+
+        PdfPCell cell3 = new PdfPCell(new Paragraph("isTaughtBy"));
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell3.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell4=new PdfPCell(new Paragraph("Year"));
+
+        PdfPCell cell4 = new PdfPCell(new Paragraph("Year"));
         cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell4.setBackgroundColor(BaseColor.DARK_GRAY);
-        
+
         table.addCell(cell1);
         table.addCell(cell2);
         table.addCell(cell3);
         table.addCell(cell4);
         rs.next();
-        do{
+        do {
             table.addCell(rs.getString("name"));
             table.addCell(rs.getString("members"));
             table.addCell(rs.getString("istaughtby"));
-            table.addCell(rs.getInt("year")+"");
-        }while(rs.next());
+            table.addCell(rs.getInt("year") + "");
+        } while (rs.next());
         doc.add(table);
         doc.close();
     }
-    
-    void printTeachers() throws SQLException, FileNotFoundException, DocumentException{
-        ResultSet rs=st.executeQuery("select * from staff");
-        
-        Document doc=new Document();
+
+    void printTeachers() throws SQLException, FileNotFoundException, DocumentException {
+        ResultSet rs = st.executeQuery("select * from staff");
+
+        Document doc = new Document();
         PdfWriter.getInstance(doc, new FileOutputStream("Teachers.pdf"));
         doc.open();
-        PdfPTable table=new PdfPTable(4);
-        
-        PdfPCell cell1=new PdfPCell(new Paragraph("ID"));
+        PdfPTable table = new PdfPTable(4);
+
+        PdfPCell cell1 = new PdfPCell(new Paragraph("ID"));
         cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        
-        PdfPCell cell2=new PdfPCell(new Paragraph("Name"));
+
+        PdfPCell cell2 = new PdfPCell(new Paragraph("Name"));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell3=new PdfPCell(new Paragraph("Department"));
+
+        PdfPCell cell3 = new PdfPCell(new Paragraph("Department"));
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell3.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell4=new PdfPCell(new Paragraph("is_Teaching"));
+
+        PdfPCell cell4 = new PdfPCell(new Paragraph("is_Teaching"));
         cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell4.setBackgroundColor(BaseColor.DARK_GRAY);
-        
+
         table.addCell(cell1);
         table.addCell(cell2);
         table.addCell(cell3);
         table.addCell(cell4);
         rs.next();
-        do{
-            table.addCell(rs.getInt("id")+"");
+        do {
+            table.addCell(rs.getInt("id") + "");
             table.addCell(rs.getString("name"));
-            table.addCell(rs.getString("department")+"");
+            table.addCell(rs.getString("department") + "");
             table.addCell(rs.getString("isteaching"));
-        }while(rs.next());
+        } while (rs.next());
         doc.add(table);
         doc.close();
     }
-    void printDatabase() throws SQLException, FileNotFoundException, DocumentException{
-         ResultSet rs=st.executeQuery("select * from groups");
-        
-        Document doc=new Document();
+
+    void printDatabase() throws SQLException, FileNotFoundException, DocumentException {
+        ResultSet rs = st.executeQuery("select * from groups");
+
+        Document doc = new Document();
         PdfWriter.getInstance(doc, new FileOutputStream("Database.pdf"));
         doc.open();
         doc.add(new Paragraph("Groups"));
-        PdfPTable Groupstable=new PdfPTable(4);
-        
-        PdfPCell cell1=new PdfPCell(new Paragraph("Name"));
+        PdfPTable Groupstable = new PdfPTable(4);
+
+        PdfPCell cell1 = new PdfPCell(new Paragraph("Name"));
         cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        
-        PdfPCell cell2=new PdfPCell(new Paragraph("Members"));
+
+        PdfPCell cell2 = new PdfPCell(new Paragraph("Members"));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell3=new PdfPCell(new Paragraph("isTaughtBy"));
+
+        PdfPCell cell3 = new PdfPCell(new Paragraph("isTaughtBy"));
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell3.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell cell4=new PdfPCell(new Paragraph("Year"));
+
+        PdfPCell cell4 = new PdfPCell(new Paragraph("Year"));
         cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell4.setBackgroundColor(BaseColor.DARK_GRAY);
-        
+
         Groupstable.addCell(cell1);
         Groupstable.addCell(cell2);
         Groupstable.addCell(cell3);
         Groupstable.addCell(cell4);
         rs.next();
-        do{
+        do {
             Groupstable.addCell(rs.getString("name"));
             Groupstable.addCell(rs.getString("members"));
             Groupstable.addCell(rs.getString("istaughtby"));
-            Groupstable.addCell(rs.getInt("year")+"");
-        }while(rs.next());
+            Groupstable.addCell(rs.getInt("year") + "");
+        } while (rs.next());
         doc.add(Groupstable);
         // NOW STARTING STUDENTS
         doc.add(new Paragraph("Students"));
         doc.add(Chunk.NEWLINE);
-        
-        rs=st.executeQuery("select * from students");
-        
-        PdfPTable Studentstable=new PdfPTable(4);
-        
-        PdfPCell scell1=new PdfPCell(new Paragraph("ID"));
+
+        rs = st.executeQuery("select * from students");
+
+        PdfPTable Studentstable = new PdfPTable(4);
+
+        PdfPCell scell1 = new PdfPCell(new Paragraph("ID"));
         cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        
-        PdfPCell scell2=new PdfPCell(new Paragraph("Name"));
+
+        PdfPCell scell2 = new PdfPCell(new Paragraph("Name"));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell scell3=new PdfPCell(new Paragraph("Year"));
+
+        PdfPCell scell3 = new PdfPCell(new Paragraph("Year"));
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell3.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell scell4=new PdfPCell(new Paragraph("Group"));
+
+        PdfPCell scell4 = new PdfPCell(new Paragraph("Group"));
         cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell4.setBackgroundColor(BaseColor.DARK_GRAY);
-        
+
         Studentstable.addCell(scell1);
         Studentstable.addCell(scell2);
         Studentstable.addCell(scell3);
         Studentstable.addCell(scell4);
         rs.next();
-        do{
-            Studentstable.addCell(rs.getInt("id")+"");
+        do {
+            Studentstable.addCell(rs.getInt("id") + "");
             Studentstable.addCell(rs.getString("name"));
-            Studentstable.addCell(rs.getInt("year")+"");
+            Studentstable.addCell(rs.getInt("year") + "");
             Studentstable.addCell(rs.getString("ismember"));
-        }while(rs.next());
+        } while (rs.next());
         doc.add(Studentstable);
 
         //NOW STARTING PRINTInG TEACHERS
         doc.add(new Paragraph("Teachers"));
         doc.add(Chunk.NEWLINE);
 
-        rs=st.executeQuery("select * from staff");
-        
-        PdfPTable Teacherstable=new PdfPTable(4);
-        
-        PdfPCell tcell1=new PdfPCell(new Paragraph("ID"));
+        rs = st.executeQuery("select * from staff");
+
+        PdfPTable Teacherstable = new PdfPTable(4);
+
+        PdfPCell tcell1 = new PdfPCell(new Paragraph("ID"));
         cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        
-        PdfPCell tcell2=new PdfPCell(new Paragraph("Name"));
+
+        PdfPCell tcell2 = new PdfPCell(new Paragraph("Name"));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell tcell3=new PdfPCell(new Paragraph("Department"));
+
+        PdfPCell tcell3 = new PdfPCell(new Paragraph("Department"));
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell3.setBackgroundColor(BaseColor.DARK_GRAY);
-        
-        PdfPCell tcell4=new PdfPCell(new Paragraph("is_Teaching"));
+
+        PdfPCell tcell4 = new PdfPCell(new Paragraph("is_Teaching"));
         cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell4.setBackgroundColor(BaseColor.DARK_GRAY);
-        
+
         Teacherstable.addCell(tcell1);
         Teacherstable.addCell(tcell2);
         Teacherstable.addCell(tcell3);
         Teacherstable.addCell(tcell4);
         rs.next();
-        do{
-            Teacherstable.addCell(rs.getInt("id")+"");
+        do {
+            Teacherstable.addCell(rs.getInt("id") + "");
             Teacherstable.addCell(rs.getString("name"));
-            Teacherstable.addCell(rs.getString("department")+"");
+            Teacherstable.addCell(rs.getString("department") + "");
             Teacherstable.addCell(rs.getString("isteaching"));
-        }while(rs.next());
+        } while (rs.next());
         doc.add(Teacherstable);
-
-
 
         doc.close();
     }
- 
+
+    void deleteIt(String id) throws SQLException {
+
+        String query = "delete from staff where id="+id;
+        System.out.println(query);
+        st.executeUpdate(query);
+
+    }
+    void deleteItStudent(String id) throws SQLException {
+
+        String query = "delete from students where id="+id;
+        System.out.println(query);
+        st.executeUpdate(query);
+
+    }
+
 }

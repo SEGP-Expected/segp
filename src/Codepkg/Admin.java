@@ -15,11 +15,14 @@ public class Admin {
 
        Admin admin = new Admin();
        ui = new UserInterface();
-       ui.updateGroups();
+//       ui.updateGroups();
+       ui.ReFresh();
 //       admin.showGroups();               
         java.awt.EventQueue.invokeLater(() -> {  //anonymous inner class creation can be turned in to lambda (->) expression
             ui.setVisible(true);
        });
+//        ui.dbGlobal.st.close();
+//        ui.dbGlobal.con.close();
     }
 //    
 //    public void showGroups() throws Exception{
