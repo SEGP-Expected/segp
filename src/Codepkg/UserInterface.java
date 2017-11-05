@@ -2,7 +2,11 @@ package Codepkg;
 
 import static Codepkg.Admin.ui;
 import com.itextpdf.text.DocumentException;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -899,7 +903,6 @@ public class UserInterface extends javax.swing.JFrame {
 
         jLabel22.setText("UoB");
 
-        jTextFieldStuUoB.setEditable(false);
         jTextFieldStuUoB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldStuUoBActionPerformed(evt);
@@ -939,10 +942,9 @@ public class UserInterface extends javax.swing.JFrame {
                         .addComponent(jbDeleteStudent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(jbSaveUpdateStudent))
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextFieldStuUoB, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                        .addComponent(jTextFieldStuName)
-                        .addComponent(jComboBoxYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jTextFieldStuUoB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(jTextFieldStuName, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxYear, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(198, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -1125,7 +1127,7 @@ public class UserInterface extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Load CSV File");
+        jMenuItem3.setText("Load Students csv");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -1135,7 +1137,12 @@ public class UserInterface extends javax.swing.JFrame {
         jMenu1.add(jSeparator4);
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("Load Excel File");
+        jMenuItem4.setText("Load Teachers csv");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);
@@ -1259,6 +1266,32 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
+        String path = "C:\\Users\\Mr.Faizan Sh\\Desktop\\students.csv";
+        try {
+                        
+			File file = new File(path);
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			StringBuffer stringBuffer = new StringBuffer();
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+			
+                                String[] studentInfo = line.split(",");
+                                DataBase db = new DataBase();
+                                db.insertStudent(studentInfo[0],studentInfo[1],studentInfo[2]);
+                                db.st.close();
+                                db.con.close();
+
+                                updateGroupedStudents();
+                                updateUnGroupedStudents();
+
+                        }
+			fileReader.close();
+		} catch (IOException e) {
+			System.out.println("Path not found");
+		} catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1820,6 +1853,37 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         clearStudents();
     }//GEN-LAST:event_jbClearFieldsStudentActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+                String path = "C:\\Users\\Mr.Faizan Sh\\Desktop\\teachers.csv";
+        try {
+                        
+			File file = new File(path);
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			StringBuffer stringBuffer = new StringBuffer();
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+			
+                                String[] teachersInfo = line.split(",");
+                                DataBase db = new DataBase();
+                                db.insertTeacher(teachersInfo[0],teachersInfo[1]);
+                                db.st.close();
+                                db.con.close();
+
+                            updateTeacher();
+                            updateUnGroupedTeacher();
+
+                        }
+			fileReader.close();
+		} catch (IOException e) {
+			System.out.println("Path not found");
+		} catch (Exception ex) {
+            Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     public void updateGroupDetails() throws Exception {
         String groupName = jGroups.getValueAt(jGroups.getSelectedRow(), 0).toString();

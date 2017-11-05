@@ -60,6 +60,27 @@ public class DataBase {
 
         st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
     }
+   
+    public void insertStudent(String id,String name,String year){
+        String query = "insert into students values('" + id + "','" + name + "','" + year + "')";
+        System.out.println(query);
+        try {
+            st.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
+    }
+    public void insertTeacher(String name,String department){
+        String query = "insert into staff(name,department) values('" + name + "','" + department + "')";
+        System.out.println(query);
+        try {
+            st.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public ResultSet showCreatedGroups(int year) throws SQLException {
         String query = "SELECT * FROM groups where year=" + year + "";
