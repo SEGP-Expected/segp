@@ -60,8 +60,9 @@ public class DataBase {
 
         st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
     }
+
     //The function inserts a studnet into the database
-    public void insertStudent(String id,String name,String year){
+    public void insertStudent(String id, String name, String year) {
         String query = "insert into students values('" + id + "','" + name + "','" + year + "')";
         System.out.println(query);
         try {
@@ -69,11 +70,11 @@ public class DataBase {
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    
+
     }
+
     //The function inserts a Teacher into the database
-    public void insertTeacher(String name,String department){
+    public void insertTeacher(String name, String department) {
         String query = "insert into staff(name,department) values('" + name + "','" + department + "')";
         System.out.println(query);
         try {
@@ -82,7 +83,8 @@ public class DataBase {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    //return resultset of all the groups
     public ResultSet showCreatedGroups(int year) throws SQLException {
         String query = "SELECT * FROM groups where year=" + year + "";
         System.out.println(query);
@@ -90,6 +92,7 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset with a teacher of a sepecific group
     public ResultSet showTeacherDetail(String groupName) throws SQLException {
         String query = "SELECT * FROM staff where isteaching='" + groupName + "'";
         System.out.println(query);
@@ -97,6 +100,7 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset with all the students of a sepecific group
     public ResultSet showStudentsDetail(String groupName) throws SQLException {
         String query = "SELECT * FROM students where ismember='" + groupName + "'";
         System.out.println(query);
@@ -104,14 +108,15 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset of all the student not assigned in the group
     public ResultSet showUnGroupedStudents(int year) throws SQLException {
-//        String query = "SELECT * FROM students where ismember=null and year='" + year + "'";
         String query = "SELECT * FROM students where year=" + year + " and ismember is NULL";
         System.out.println(query);
         ResultSet rs = st.executeQuery(query);
         return rs;
     }
 
+    //return resultset of all the teacher not assigned in the group
     public ResultSet showUnGroupedTeacher(int year) throws SQLException {
         String query = "SELECT * FROM staff where isteaching is NULL";
         System.out.println(query);
@@ -119,6 +124,7 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset of all the student assigned in the group
     public ResultSet showGroupedStudents(int year) throws SQLException {
 //        String query = "SELECT * FROM students where ismember IS NOT NULL and year='" + year + "'";
         String query = "SELECT * FROM students where year=" + year + " and ismember IS NOT NULL";
@@ -127,6 +133,7 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset of all the teacher assigned in the group
     public ResultSet showGroupedTeacher(int year) throws SQLException {
         String query = "SELECT * FROM staff where isteaching IS NOT NULL";
         System.out.println(query);
@@ -134,6 +141,7 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset with student of a given ID
     public ResultSet getSelectedStudent(String UoB) throws SQLException {
         Integer id = Integer.parseInt(UoB);
         String query = "SELECT * FROM students where id=" + id;
@@ -142,6 +150,7 @@ public class DataBase {
         return rs;
     }
 
+    //return resultset with teacher of a given ID
     public ResultSet getSelectedTeacher(String id) throws SQLException {
         Integer idt = Integer.parseInt(id);
         String query = "SELECT * FROM staff where id=" + idt;
@@ -150,6 +159,7 @@ public class DataBase {
         return rs;
     }
 
+    //save new teacher from the giiven credentials
     void saveTeacher(String id, String teacherName, String department) throws SQLException {
 
         if (id.equals("")) {
@@ -164,6 +174,7 @@ public class DataBase {
 
     }
 
+    //save new students from the given credentials
     void saveStudent(String studentID, String studentName, int year) throws Exception {
         if (studentID.equals("")) {
             String query = "insert into students(name,year) values('" + studentName + "','" + year + "')";
@@ -176,6 +187,7 @@ public class DataBase {
         }
     }
 
+    //get everything a group need and save it
     void saveGroup(String groupName, String[] sNames, int count, String tid, int year) throws Exception {
         String query = "select * from groups where name='" + groupName + "'";
         ResultSet rs = st.executeQuery(query);
@@ -204,13 +216,7 @@ public class DataBase {
 
     }
 
-//    public int getTeacherID(String tName) throws Exception {
-//        ResultSet rs1 = st.executeQuery("select id from staff where name='" + tName + "'");
-//        rs1.next();
-//        int id = rs1.getInt("id");
-//        return id;
-//        
-//    }
+    //check no of groups with members less than 4
     int checkException() throws SQLException {
         String faltu = "select count(members) from groups where members < 4";
         ResultSet rs = st.executeQuery(faltu);
@@ -220,23 +226,28 @@ public class DataBase {
 
     }
 
+    //Unallocate all students from a given group 
     void unAllocateStudentsfromGroup(String gName) throws SQLException {
         st.executeUpdate("Update students set ismember=null where ismember='" + gName + "'");
     }
 
+    //Unallocate student from whatever group
     void unAllocateAstudent(int id) throws Exception {
         st.executeUpdate("Update students set ismember = null where id=" + id);
     }
 
+    // Unallocate teacher from a given group name
     void unAllocateTeacher(String groupName) throws SQLException {
         st.executeUpdate("Update staff set isteaching=null where isteaching='" + groupName + "'");
     }
 
+    //get group name and delete it from database
     void deleteGroup(String groupName) throws SQLException {
         //To change body of generated methods, choose Tools | Templates.
         st.executeUpdate("delete from groups where name='" + groupName + "'");
     }
 
+    //Print student and generate its PDF
     void printStudents() throws SQLException, FileNotFoundException, DocumentException {
         ResultSet rs = st.executeQuery("select * from students");
 
@@ -277,6 +288,7 @@ public class DataBase {
         doc.close();
     }
 
+    //Only PRINT GROUPS and Generate its PDF
     void printGroups() throws SQLException, FileNotFoundException, DocumentException {
         ResultSet rs = st.executeQuery("select * from groups");
 
@@ -316,6 +328,7 @@ public class DataBase {
         doc.close();
     }
 
+    //It only print PDF of Teachers
     void printTeachers() throws SQLException, FileNotFoundException, DocumentException {
         ResultSet rs = st.executeQuery("select * from staff");
 
@@ -355,6 +368,7 @@ public class DataBase {
         doc.close();
     }
 
+    //its a method which gets all the table from the database and generate a PDF
     void printDatabase() throws SQLException, FileNotFoundException, DocumentException {
         ResultSet rs = st.executeQuery("select * from groups");
 
@@ -469,16 +483,19 @@ public class DataBase {
         doc.close();
     }
 
+    //get the teacher id and then delete it from database
     void deleteIt(String id) throws SQLException {
 
-        String query = "delete from staff where id="+id;
+        String query = "delete from staff where id=" + id;
         System.out.println(query);
         st.executeUpdate(query);
 
     }
+
+    //Get a single ID and from database delete it
     void deleteItStudent(String id) throws SQLException {
 
-        String query = "delete from students where id="+id;
+        String query = "delete from students where id=" + id;
         System.out.println(query);
         st.executeUpdate(query);
 

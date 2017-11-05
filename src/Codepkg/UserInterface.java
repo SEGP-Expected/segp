@@ -1029,7 +1029,7 @@ public class UserInterface extends javax.swing.JFrame {
 
         jTabHome.addTab("Add/Edit Student", jPanel7);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "All" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
         jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBox1MouseClicked(evt);
@@ -1262,6 +1262,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        jTabHome.setSelectedIndex(WIDTH);
     }//GEN-LAST:event_jButton6ActionPerformed
 //This actionPerformed is for loading a students csv file
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -1460,7 +1461,7 @@ public class UserInterface extends javax.swing.JFrame {
             saveStudent();
             updateGroupedStudents();
             updateUnGroupedStudents();
-
+            ReFresh();
 //        saveTeacher();
         } catch (SQLException ex) {
             Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -1837,12 +1838,15 @@ public class UserInterface extends javax.swing.JFrame {
                     deleteStudent();
                     clearStudents();
                     JOptionPane.showMessageDialog(null, "Student Deleted From Database");
+                    ReFresh();
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Can not delete Allocated Student"+ "Remove it from "+check+" first");
                 }
 
             } catch (SQLException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -2244,6 +2248,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     }
 
+    
     private void AddUpdateStudent() throws Exception {
         String UoB = jTableStudents.getValueAt(jTableStudents.getSelectedRow(), 0).toString();
 
@@ -2268,6 +2273,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     }
 
+    //get teachers thing and save
     private void saveTeacher() throws SQLException {
         String teacherName = jTextFieldNewTeacherName.getText();
         //To change body of generated methods, choose Tools | Templates.
@@ -2288,6 +2294,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     }
 
+    //get things and save
     private void saveStudent() throws Exception {
         String studentName = jTextFieldStuName.getText();
         String studentID = jTextFieldStuUoB.getText();
@@ -2302,6 +2309,7 @@ public class UserInterface extends javax.swing.JFrame {
         db.con.close();
     }
 
+    //get things and send to database and get resultset and save it
     public void saveGroup() throws Exception {
 
         String[] sNames = new String[8];
@@ -2353,6 +2361,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     }
 
+    //refresh all the screen
     void ReFresh() throws Exception {
         updateGroups();
 
@@ -2364,48 +2373,8 @@ public class UserInterface extends javax.swing.JFrame {
 
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new UserInterface().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
-
+    
+    //use by restore:::: get all the members of the group before editing them
     public void backupMembers() {
         slist = new String[8];
         slist[0] = jTextField1.getText().trim();
@@ -2419,6 +2388,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     }
 
+    //restore the unallocated students
     public void restore() throws SQLException, Exception {
         int count = 0;
         for (int i = 0; i < 8; i++) {
@@ -2436,6 +2406,7 @@ public class UserInterface extends javax.swing.JFrame {
         }
     }
 
+    //delete a teacher
     private void deleteTeacher() throws SQLException {
         
         DataBase db = new DataBase();
@@ -2448,6 +2419,7 @@ public class UserInterface extends javax.swing.JFrame {
         db.con.close();
     }
 
+    //delete a student
     private void deleteStudent() throws SQLException {
         DataBase db = new DataBase();
         jTextFieldStuName.getText();
@@ -2459,6 +2431,50 @@ public class UserInterface extends javax.swing.JFrame {
         db.con.close();
     }
 
+
+    
+    
+    /**
+     * @param args the command line arguments
+     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    new UserInterface().setVisible(true);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton12;
