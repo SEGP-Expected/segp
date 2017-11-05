@@ -1263,7 +1263,7 @@ public class UserInterface extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
-
+//This actionPerformed is for loading a students csv file
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         String path = "C:\\Users\\Mr.Faizan Sh\\Desktop\\students.csv";
@@ -1853,7 +1853,7 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         clearStudents();
     }//GEN-LAST:event_jbClearFieldsStudentActionPerformed
-
+//This actionPerformed is for loading a Teachers csv file
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
                 String path = "C:\\Users\\Mr.Faizan Sh\\Desktop\\teachers.csv";

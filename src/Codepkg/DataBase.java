@@ -60,7 +60,7 @@ public class DataBase {
 
         st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
     }
-   
+    //The function inserts a studnet into the database
     public void insertStudent(String id,String name,String year){
         String query = "insert into students values('" + id + "','" + name + "','" + year + "')";
         System.out.println(query);
@@ -72,6 +72,7 @@ public class DataBase {
     
     
     }
+    //The function inserts a Teacher into the database
     public void insertTeacher(String name,String department){
         String query = "insert into staff(name,department) values('" + name + "','" + department + "')";
         System.out.println(query);
